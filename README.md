@@ -203,8 +203,8 @@ This project is derived from two open-source projects:
 
 | Source | License | What's used |
 |--------|---------|-------------|
-| [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) | **GPL v3** | Web novel creation skills (`skills/webnovel/`, `skills/shortstory/`, `skills/tech/`) |
-| [amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) | **MIT** | Fanqie Novel publisher (`skills/fanqie/`) — retains its own MIT license |
+| [@lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) | **GPL v3** | Web novel creation skills (`skills/webnovel/`, `skills/shortstory/`, `skills/tech/`) |
+| [@amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) | **MIT** | Fanqie Novel publisher (`skills/fanqie/`) — retains its own MIT license |
 
 The `skills/fanqie/` subdirectory retains its original **MIT License** (see its [LICENSE](skills/fanqie/LICENSE)). The rest of the project is **GPL v3**.
 
@@ -222,8 +222,8 @@ The `skills/fanqie/` subdirectory retains its original **MIT License** (see its 
 
 | 来源 | 许可证 | 使用部分 |
 |------|--------|----------|
-| [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) | **GPL v3** | 网文/短篇/技术博文技能 |
-| [amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) | **MIT** | 番茄发布模块（保留 MIT 许可证） |
+| [@lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) | **GPL v3** | 网文/短篇/技术博文技能 |
+| [@amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) | **MIT** | 番茄发布模块（保留 MIT 许可证） |
 
 ---
 
