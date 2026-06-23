@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# IDE & Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Runtime
+__pycache__/
+*.pyc
+*.pyo
+*.pyc
+.pytest_cache/
+.env
+*.log
+
+# Skill local state
+state/
+.ace-tool/
+.claude/
+.codex/
+operations-log.md
+
+# Debug/working files
+scripts/debug/
+temp/
+tmp/
+
+# Build artifacts
+dist/
+build/

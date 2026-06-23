@@ -1,0 +1,34 @@
+{
+  "name": "fanqie-publisher-skill",
+  "version": "0.1.0",
+  "description": "OpenCode / OpenClaw Skill：通过浏览器自动化将本地 Markdown 章节发布到番茄作者后台",
+  "main": "scripts/publish_fanqie.js",
+  "type": "commonjs",
+  "scripts": {
+    "preview": "python3 scripts/prepare_chapters.py --help",
+    "login": "node scripts/login_fanqie.js",
+    "publish": "node scripts/publish_fanqie.js"
+  },
+  "keywords": [
+    "openclaw",
+    "opencode",
+    "skill",
+    "fanqie",
+    "playwright",
+    "browser-automation",
+    "novel-publishing"
+  ],
+  "author": "amm10090",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amm10090/fanqie-publisher-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amm10090/fanqie-publisher-skill/issues"
+  },
+  "homepage": "https://github.com/amm10090/fanqie-publisher-skill#readme",
+  "dependencies": {
+    "playwright": "^1.58.2"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+state/
+.ace-tool/
+.claude/
+.codex/
+operations-log.md
+scripts/debug/
