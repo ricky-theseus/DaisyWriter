@@ -46,9 +46,8 @@ jobs:
           patterns=(
             "ricky_theseus@cug"
             "D:\\\\Writer"
-            "sk-"
           )
-          exclude_files="\.github/|\.git/|node_modules/|docs/|CHANGELOG.md|skills/cover-maker/SKILL\.md|skills/webnovel/craft/references/writing-standards\.md"
+          exclude_files="\.github/|\.git/|node_modules/|docs/|CHANGELOG.md"
           for pattern in "${patterns[@]}"; do
             matches=$(grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -vE "$exclude_files" || true)
             if [ -n "$matches" ]; then
