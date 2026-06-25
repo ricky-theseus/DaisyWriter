@@ -14,10 +14,12 @@ DaisyWriter 的开发遵循 **Superpower PR Flow**——每次变更都是一个
 
 ---
 
-## 标准 PR 流程
+## 标准 PR 流程（单人仓库）
+
+由于主分支已锁定保护，所有变更必须走 PR 流程：
 
 ```
-1. 发现问题 / 收到需求
+1. AI 发现需求
        │
        ▼
 2. 加载相关技能（skill check）
@@ -26,22 +28,27 @@ DaisyWriter 的开发遵循 **Superpower PR Flow**——每次变更都是一个
 3. 创建分支 (git checkout -b feat/my-change)
        │
        ▼
-4. 修改代码 / 文档
+4. 修改代码
        │
        ▼
-5. 本地验证 (git status / git diff)
+5. 提交推送 (git add -A && git commit -m "type: msg" && git push)
        │
        ▼
-6. 提交 (git commit -m "type: description")
+6. 创建 PR (gh pr create --base master --head feat/my-change)
        │
        ▼
-7. 推送 (git push origin feat/my-change)
+7. CI 自动运行（pr-check.yml）
+       │
+       ├── 失败 → AI 修复 → 推送 → 回到 7
        │
        ▼
-8. 创建 PR → 自检 checklist → 合并
+8. ✅ CI 通过 → 通知用户审查
        │
        ▼
-9. 删除分支
+9. 用户在 GitHub 上审查 → 点击 Merge
+       │
+       ▼
+10. 分支自动删除
 ```
 
 ---
