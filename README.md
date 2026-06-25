@@ -86,7 +86,8 @@ DaisyWriter/
 | Skill | Path | Description |
 |-------|------|-------------|
 | init | [`skills/shortstory/init/`](skills/shortstory/init/) | Project init + blind review |
-| write | [`skills/shortstory/write/`](skills/shortstory/write/) | Full writing pipeline |
+| write | [`skills/shortstory/write/`](skills/shortstory/write/) | Rolling write with word-count gate |
+| review | [`skills/shortstory/review/`](skills/shortstory/review/) | Blind review with stage-aware standards |
 | craft | [`skills/shortstory/craft/`](skills/shortstory/craft/) | Craft quality constraints |
 | deconstruct | [`skills/shortstory/deconstruct/`](skills/shortstory/deconstruct/) | Reference analysis |
 
@@ -98,12 +99,19 @@ DaisyWriter/
 | deconstruct | [`skills/tech/deconstruct/`](skills/tech/deconstruct/) | Article analysis |
 | batch | [`skills/tech/batch/`](skills/tech/batch/) | Batch production |
 | sync-csdn | [`skills/tech/sync-csdn/`](skills/tech/sync-csdn/) | CSDN sync |
+| csdn-upload | [`skills/tech/csdn-upload/`](skills/tech/csdn-upload/) | Upload drafts to CSDN via Playwright |
 
 ### 🤖 Publishing (`skills/fanqie/`)
 
 | Skill | Path | Description |
 |-------|------|-------------|
 | fanqie-publish | [`skills/fanqie/`](skills/fanqie/) | Browser-automated publishing to Fanqie Novel |
+
+### 🔧 Tools (`skills/cover-maker/`)
+
+| Skill | Path | Description |
+|-------|------|-------------|
+| cover-maker | [`skills/cover-maker/`](skills/cover-maker/) | AI novel cover generation |
 
 ---
 

@@ -44,16 +44,21 @@ Or via command:
 - [`deconstruct`](skills/shortstory/deconstruct/) — Reference analysis / 拆书
 - [`init`](skills/shortstory/init/) — Project initialization / 立项
 - [`craft`](skills/shortstory/craft/) — Craft constraints / 工艺约束
-- [`write`](skills/shortstory/write/) — Full writing pipeline / 写作
+- [`write`](skills/shortstory/write/) — Rolling write pipeline / 滚动写
+- [`review`](skills/shortstory/review/) — Blind review / 盲审
 
 ### Technical Blog (技术博文 — `skills/tech/`)
 - [`deconstruct`](skills/tech/deconstruct/) — Article analysis / 拆解
 - [`write`](skills/tech/write/) — Write blog posts / 写作
 - [`batch`](skills/tech/batch/) — Batch production / 批量生产
 - [`sync-csdn`](skills/tech/sync-csdn/) — Sync CSDN articles / 同步
+- [`csdn-upload`](skills/tech/csdn-upload/) — Upload drafts to CSDN / 上传草稿
 
 ### Publishing (发布自动化 — `skills/fanqie/`)
 - [`fanqie-publish`](skills/fanqie/) — Publish to Fanqie Novel / 发布到番茄小说
+
+### Tools (工具 — `skills/cover-maker/`)
+- [`cover-maker`](skills/cover-maker/) — AI book cover generation / AI 封面生成
 
 ## Adapters
 

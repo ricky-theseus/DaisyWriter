@@ -121,9 +121,12 @@ def main():
                     "reason": f"正文.md 中未找到「## 第{cc}章：标题」。格式必须为 ## 第N章：标题"
                 })
 
-            # 字数通过 → writing → in_review
-            if not errors and cs.get("status") == "writing":
-                status["chapters"][str(cc)]["status"] = "in_review"
+            # 字数通过 → 推进状态
+            if not errors:
+                if cs.get("status") == "writing":
+                    status["chapters"][str(cc)]["status"] = "in_review"
+                elif cs.get("status") == "blocking":
+                    status["chapters"][str(cc)]["status"] = "in_review"
 
     # ---- 自动推进当前章指针 ----
     nxt = None

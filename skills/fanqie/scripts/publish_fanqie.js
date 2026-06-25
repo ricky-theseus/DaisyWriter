@@ -48,17 +48,53 @@ function loadChapters(args) {
 
 function filterChapters(chapters, args) {
   let items = [...chapters];
+
+  // --range "第0005章-第0010章" or "5-10" or "0005-0010"
+  if (args.range) {
+    const rangeStr = String(args.range).trim();
+    const parts = rangeStr.split(/[-–—]/).map(s => s.trim());
+    if (parts.length === 2) {
+      const findIdx = (kw) => items.findIndex((c) =>
+        c.name.includes(kw) || c.title.includes(kw) || c.serial?.includes(kw) ||
+        (c.display_title && (c.name.includes(kw) || c.title.includes(kw)))
+      );
+      // Try finding start/end by keyword
+      let si = findIdx(parts[0]);
+      if (si === -1) {
+        // treat as chapter number (e.g. "5" → "第0005章")
+        const padded = String(parts[0]).padStart(4, '0');
+        si = items.findIndex(c => c.serial === `第${padded}章` || c.name.includes(padded));
+        if (si === -1) si = Number(parts[0]) - 1;
+      }
+      let ei = findIdx(parts[1]);
+      if (ei === -1) {
+        const padded = String(parts[1]).padStart(4, '0');
+        ei = items.findIndex(c => c.serial === `第${padded}章` || c.name.includes(padded));
+        if (ei === -1) ei = Number(parts[1]) - 1;
+      }
+      if (si >= 0 && ei >= 0 && ei >= si) items = items.slice(si, ei + 1);
+    }
+    return items;
+  }
+
   if (args['start-from']) {
     const keyword = String(args['start-from']).trim();
     const idx = items.findIndex((c) => c.name.includes(keyword) || c.title.includes(keyword) || c.display_title?.includes(keyword));
     if (idx >= 0) items = items.slice(idx);
   }
-  const limit = Number(args.limit || items.length || 1);
+
+  if (args['end-at']) {
+    const keyword = String(args['end-at']).trim();
+    const idx = items.findIndex((c) => c.name.includes(keyword) || c.title.includes(keyword) || c.display_title?.includes(keyword));
+    if (idx >= 0) items = items.slice(0, idx + 1);
+  }
+
+  const limit = args.range ? items.length : Number(args.limit || items.length || 1);
   return items.slice(0, limit);
 }
 
 function applyDailyLimitGuard(chapters, args) {
-  const mode = args.mode || 'immediate';
+  const mode = args.mode || 'draft-only';
   if (mode !== 'immediate') return chapters;
   const dailyLimit = Number(args['daily-limit-chars'] || DEFAULT_DAILY_LIMIT_CHARS);
   const alreadyPublished = Number(args['already-published-chars'] || 0);
@@ -915,14 +951,16 @@ async function publishOneOnce(page, context, chapter, args, shotsDir, stateFile,
     return { chapter, mode: 'debug-volume-stop', ok: true, volumeResult: fillResult.volumeResult };
   }
 
-  if (args['dry-run'] || args['fill-only'] || args['draft-only']) {
+  // Default: save as draft. Use --confirm-publish to actually publish.
+  const isDraftOnly = !args['confirm-publish'];
+  if (args['dry-run'] || args['fill-only'] || isDraftOnly) {
     return { chapter, mode: 'draft-only', ok: true, volumeResult: fillResult?.volumeResult };
   }
 
   const modalResult = await goToFinalPublishModal(page, chapter, shotsDir, prefix);
   if (!modalResult.ok) return { chapter, ok: false, reason: modalResult.reason };
 
-  if (args['to-final-modal'] || !args['confirm-publish']) {
+  if (args['to-final-modal']) {
     return { chapter, mode: 'to-final-modal', ok: true, volumeResult: fillResult?.volumeResult };
   }
 
@@ -1025,7 +1063,11 @@ async function publishOne(page, context, chapter, args, shotsDir, stateFile, sta
 
 async function main() {
   const args = parseArgs(process.argv);
-  const mode = args.mode || 'immediate';
+  // Default: save as draft for safety. Use --confirm-publish to actually publish.
+  const isPublish = args['confirm-publish'];
+  const mode = isPublish ? (args.mode || 'immediate') : 'draft-only';
+  if (isPublish && args.mode) { /* explicit mode */ }
+  else if (!isPublish) args['draft-only'] = true;
   if (args['book-id']) BOOK_ID = args['book-id'];
   if (args['book-name']) BOOK_NAME = args['book-name'];
   const skillRoot = path.resolve(__dirname, '..');
@@ -1055,7 +1097,7 @@ async function main() {
     process.exit(1);
   }
 
-  if (args['draft-only']) {
+  if (args['draft-only'] || !args['confirm-publish']) {
     // 草稿模式不受每日字数限制
   } else {
     chapters = applyDailyLimitGuard(chapters, { ...args, mode });
