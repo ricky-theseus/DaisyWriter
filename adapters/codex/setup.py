@@ -5,6 +5,7 @@ Creates `.codex/skills/<name>/SKILL.md` stubs that reference
 the real skill files in the DaisyWriter `skills/` directory.
 """
 
+import argparse
 import json
 import os
 import shutil
@@ -48,6 +49,9 @@ SKILL_MAP = {
 
 
 def setup():
+    parser = argparse.ArgumentParser(description="Install DaisyWriter skills into .codex/skills/")
+    parser.parse_args()
+
     base = SKILL_DIR
     if not base.exists():
         print(f"Error: skills directory not found at {base}")
