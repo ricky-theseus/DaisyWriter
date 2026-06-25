@@ -1,13 +1,13 @@
-# Short Story Writing Guide 📝
+# 短篇写作指南 📝
 
-Write Zhihu Yanxuan-style short stories with blind review quality gates.
+写知乎盐选风格短篇，盲审质量门禁。
 
 ---
 
-## Overview
+## 概览
 
 ```
-选题 → init (设定+盲审) → write (滚动写) → review → 定稿
+选题 → 立项 (设定+盲审) → 写章 (滚动写) → 审查 → 定稿
                                   ↑
                             validate_chapter.py
                               字数门禁
@@ -15,114 +15,112 @@ Write Zhihu Yanxuan-style short stories with blind review quality gates.
 
 ---
 
-## Skill 1: Init (`shortstory-init`)
+## 技能 1：立项 (`shortstory-init`)
 
-Initialize a short story project with state-machine-driven quality.
+状态机驱动的短篇初始化。
 
 ```
 /shortstory-init 3 悬疑
 ```
 
-Creates 3 suspense story projects with:
+为每篇创建：
 
-| File | Purpose |
-|------|---------|
-| `作品信息.md` | Title, tagline, tags, summary |
-| `设定.md` | World, rules, timeline (≥200 chars) |
-| `角色.md` | Character profiles + ASCII relationship map |
-| `章节规划.md` | Chapters with hooks, payoffs, foreshadowing table |
-| `工艺约束.md` | Craft constraints specific to this piece |
-| `正文.md` | Empty placeholder |
+| 文件 | 用途 |
+|------|------|
+| `作品信息.md` | 名称、金句、标签、简介 |
+| `设定.md` | 世界观、规则、时间线（≥200 字） |
+| `角色.md` | 角色档案 + ASCII 关系图 |
+| `章节规划.md` | 章节、钩子、收束、伏笔回收表 |
+| `工艺约束.md` | 本篇特殊工艺约束 |
+| `正文.md` | 空占位文件 |
 
-**State machine:**
+**状态机：**
 
 ```
-drafting ──file check──→ in_review ──zero blocking──→ passed
-    ↑                       │
-    └── fix issues ←── blocking
+ drafting ──文件检查──→ in_review ──零阻断──→ passed
+     ↑                        │
+     └── 修复问题 ←── blocking
 ```
 
-After init passes, the project is ready for `shortstory-write`.
+立项通过后，项目即可用于 `shortstory-write`。
 
 ---
 
-## Skill 2: Write (`shortstory-write`)
+## 技能 2：写章 (`shortstory-write`)
 
-Rolling write with word-count gate.
+滚动写，字数门禁。
 
 ```bash
 python skills/shortstory/write/start.py 短篇/悬疑/白骨墙/
 ```
 
-**Process:**
-1. Write a chapter in `正文.md` (separated by `## 第N章：标题`)
-2. Run word-count validation:
+**流程：**
+1. 在 `正文.md` 中写一章（`## 第N章：标题` 分隔）
+2. 运行字数校验：
    ```bash
    python skills/shortstory/write/validate_chapter.py 短篇/悬疑/白骨墙/
    ```
-3. If word count passes → submit for blind review
-4. If blocking → fix and rerun
-5. All chapters done → full story blind review → finalize
+3. 字数达标 → 提交盲审
+4. 有阻断 → 修复后重新校验
+5. 全部写完 → 全篇盲审 → 定稿
 
-**Word-count gate:**
-- Actual < Target → **blocked**, must add content
-- Actual ≥ Target → **passed**, proceed to review
+**字数门禁：**
+- 实际 < 目标 → **阻断**，必须补充内容
+- 实际 ≥ 目标 → **通过**，进入审查
 
 ---
 
-## Skill 3: Review (`shortstory-review`)
+## 技能 3：审查 (`shortstory-review`)
 
-Stage-aware blind review for short stories.
+分阶段短篇盲审。
 
 ```
 /shortstory-review 短篇/悬疑/白骨墙/
 /shortstory-review 短篇/悬疑/白骨墙/ --final
 ```
 
-**Two modes:**
+**两种模式：**
 
-| Mode | Scope | Checks |
-|------|-------|--------|
-| Single-chapter | Current chapter only | CBN coverage, pacing, prose quality |
-| Full-story (`--final`) | Entire piece | Structure, arc completion, twist quality |
+| 模式 | 范围 | 检查项 |
+|------|------|--------|
+| 单章 | 当前章 | CBN 覆盖、节奏、工艺质量 |
+| 全篇 (`--final`) | 整篇 | 结构、弧线完成度、反转质量 |
 
-**Review dimensions:**
-1. Logical consistency
-2. Character arc
-3. Pacing control
-4. Foreshadowing design
-5. Tool-man loopholes
-6. Yanxuan suitability (opening hook)
-
----
-
-## Skill 4: Craft (`shortstory-craft`)
-
-Quality constraints for short prose.
-
-**Short story metrics:**
-
-| Metric | Standard | Blocking |
-|--------|----------|----------|
-| Hook position | Within first 500 chars | >500 |
-| Word count | 8,000-30,000 | Outside range |
-| Avg sentence length | 25-50 chars | <20 or >55 |
-| Consecutive same-subject openings | ≤2 | >2 |
-| Emotion label words | 0 | >0 |
+**审查维度：**
+1. 逻辑自洽
+2. 角色弧光
+3. 节奏控制
+4. 伏笔设计
+5. 工具人漏洞
+6. 盐选适配（开篇钩子）
 
 ---
 
-## Skill 5: Deconstruct (`shortstory-deconstruct`)
+## 技能 4：工艺约束 (`shortstory-craft`)
 
-Extract patterns from reference stories.
+短篇散文质量指标。
+
+| 指标 | 标准 | 阻断 |
+|------|------|:----:|
+| 钩子位置 | 前 500 字内 | >500 |
+| 字数 | 8000-30000 | 超出范围 |
+| 平均句长 | 25-50 字 | <20 或 >55 |
+| 连续同主语开头 | ≤2 | >2 |
+| 情绪标签词 | 0 | >0 |
+
+---
+
+## 技能 5：拆解 (`shortstory-deconstruct`)
+
+从参考文中提取模式。
 
 ```
 /shortstory-deconstruct 沉默的真相
 ```
 
-**Output:** `短篇/参考书/{type}/{title}/`
-- `原文.md` — Original text
-- `拆解报告.md` — Analysis report
-- `拆解数据.json` — Structured data
+**输出：** `短篇/参考书/{type}/{title}/`
+- `原文.md` — 原文
+- `拆解报告.md` — 分析报告
+- `拆解数据.json` — 结构化数据
 
-**Analysis covers:** opening hook, structure skeleton, suspense design, pacing, info density, emotion curve, character building, ending quality.
+**分析覆盖：** 开头钩子、结构骨架、悬念设计、节奏、信息密度、情绪曲线、角色塑造、收尾质量。

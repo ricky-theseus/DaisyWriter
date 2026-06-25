@@ -1,225 +1,225 @@
-# Web Novel Writing Guide 📚
+# 网文写作指南 📚
 
-Complete walkthrough of the 12 web novel skills in DaisyWriter.
-
----
-
-## Overview
-
-```
-Reference Novel          New Novel
-     │                       │
-     ▼                       ▼
-deconstruct ───┐         init
-               │           │
-               └──► ideas  │
-                           ▼
-                         plan
-                           │
-                           ▼
-                    ┌── write ──┐
-                    │           │
-                    ▼           ▼
-                  batch      review
-                    │           │
-                    └──► review ◄┘
-                           │
-                           ▼
-                        publish
-```
+12 个网文技能完整教程。
 
 ---
 
-## Skill 1: Deconstruct (`webnovel-deconstruct`)
+## 概览
 
-Analyze a reference novel to extract patterns.
+```
+参考书                新书
+  │                    │
+  ▼                    ▼
+拆书 ───┐           立项
+        │              │
+        └──► 灵感      │
+                       ▼
+                     规划
+                       │
+                       ▼
+               ┌── 写章 ──┐
+               │          │
+               ▼          ▼
+             批量      审查
+               │          │
+               └──► 审查 ◄┘
+                       │
+                       ▼
+                    发布
+```
+
+---
+
+## 技能 1：拆书 (`webnovel-deconstruct`)
+
+分析参考书，提取写作模式。
 
 ```
 /webnovel-deconstruct 盗墓笔记
 ```
 
-**Output:**
+**输出：**
 ```
 参考书/盗墓笔记/
-├── 盗墓笔记.txt                  # Original text
-├── 盗墓笔记-拆书报告.md          # Analysis report
-├── 盗墓笔记-拆书数据.json        # Structured data
-├── 盗墓笔记-情绪曲线.md          # Emotion curve
-└── 盗墓笔记-节奏统计.md          # Pacing statistics
+├── 盗墓笔记.txt                  # 原文
+├── 盗墓笔记-拆书报告.md          # 分析报告
+├── 盗墓笔记-拆书数据.json        # 结构化数据
+├── 盗墓笔记-情绪曲线.md          # 情绪曲线
+└── 盗墓笔记-节奏统计.md          # 节奏统计
 ```
 
-**Use the report to:**
-- Identify hook placement patterns
-- Understand chapter-level pacing
-- Extract payoff structures you can borrow
+**拆书报告的用途：**
+- 识别钩子放置模式
+- 理解章节级节奏
+- 提取可借用的收束结构
 
 ---
 
-## Skill 2: Init (`webnovel-init`)
+## 技能 2：立项 (`webnovel-init`)
 
-Create a new novel project with structured worldbuilding.
+创建新小说项目，结构化世界设定。
 
 ```
 /webnovel-init "诡异熔炉"
 ```
 
-The skill runs a phased interview:
+分阶段交互采访：
 
-| Phase | Collects | Gate |
-|-------|----------|------|
-| Inspiration | Idea bank, reference novels | At least 1 idea |
-| Story core | Genre, title, hook, target length | Book title + genre |
-| Character | Protagonist, supporting cast | Protagonist with desire & flaw |
-| Golden finger | Power system type, limitations | Type determined |
-| World rules | Setting, factions, history | World scale |
-| Constraints | Creative boundaries, anti-tropes | Naming rules |
+| 阶段 | 收集内容 | 闸门 |
+|------|----------|------|
+| 灵感 | 创意库、参考书 | 至少 1 个灵感 |
+| 故事核心 | 题材、书名、钩子、目标字数 | 书名 + 题材 |
+| 角色 | 主角、配角 | 主角有欲望和缺陷 |
+| 金手指 | 力量体系类型、限制 | 类型已确定 |
+| 世界规则 | 设定、势力、历史 | 世界规模 |
+| 约束 | 创意边界、反套路 | 命名规则 |
 
-**Sufficiency gates** prevent generation until essential info is collected — no half-baked projects.
+**充分性闸门**防止在信息不足时生成 —— 不会有半成品项目。
 
 ---
 
-## Skill 3: Plan (`webnovel-plan`)
+## 技能 3：规划 (`webnovel-plan`)
 
-Generate volume outlines and chapter plans.
+生成卷纲和章纲。
 
 ```
 /webnovel-plan 1
 ```
 
-**10-step pipeline:**
-1. Load project state
-2. Backfill settings from existing files
-3. Select target volume
-4. Generate beat sheet (volume-level pacing)
-5. Generate timeline (in-story chronology)
-6. Build volume skeleton
-7. Batch chapter outlines (8-12 per batch)
-8. Write back new settings to files
-9. Verify completeness
-10. Refresh story system contracts
+**10 步流程：**
+1. 加载项目状态
+2. 从现有文件回填设定
+3. 选择目标卷
+4. 生成节拍表（卷级节奏）
+5. 生成时间线（故事内时间）
+6. 构建卷骨架
+7. 批量章纲（每批 8-12 章）
+8. 增量写回新设定到文件
+9. 验证完整性
+10. 刷新故事合约
 
-**Per-chapter outline includes:**
-- CBN (Critical Beat Nodes — must-haves)
-- CPN (optional nodes)
-- CEN (Chapter End State)
-- Time anchor
-- Hook to next chapter
-- Forbidden content
+**每章大纲包含：**
+- CBN（关键叙事节点——必须出现的）
+- CPN（可选节点）
+- CEN（章节结束状态）
+- 时间锚点
+- 指向下一章的钩子
+- 禁区
 
 ---
 
-## Skill 4: Write (`webnovel-write`)
+## 技能 4：写章 (`webnovel-write`)
 
-Single chapter production with quality gates.
+单章撰写，带质量门禁。
 
 ```
 /webnovel-write 5
 ```
 
-**Three modes:**
+**三种模式：**
 
-| Mode | Pipeline | When to use |
-|------|----------|-------------|
-| Default | Full 6-step: preflight → context → draft → scan → review → polish | Normal chapters |
-| `--fast` | Lightweight review (skip full blind review) | Filler/transition chapters |
-| `--minimal` | No review, minimal polish | First draft / brainstorming |
+| 模式 | 流程 | 适用场景 |
+|------|------|----------|
+| 默认 | 完整 6 步：前置 → 上下文 → 起草 → 扫描 → 审查 → 润色 | 正常章 |
+| `--fast` | 轻量审查（跳过完整盲审） | 过渡章 |
+| `--minimal` | 不审查，最小润色 | 初稿 / 脑暴 |
 
-**Prose quality gates (enforced by prose_scanner.py):**
+**工艺质量门禁（prose_scanner.py 强制执行）：**
 
-| Metric | Standard | Blocking |
-|--------|----------|----------|
-| Avg sentence length | 30-55 chars | <25 or >55 |
-| Very short sentences | ≤15% | >15% |
-| Long sentences | ≥30% | — |
-| Emotion label words | 0 | >0 |
+| 指标 | 标准 | 阻断 |
+|------|------|:----:|
+| 平均句长 | 30-55 字 | <25 或 >55 |
+| 极短句占比 | ≤15% | >15% |
+| 长句占比 | ≥30% | — |
+| 情绪标签词 | 0 | >0 |
 
 ---
 
-## Skill 5: Batch (`webnovel-batch`)
+## 技能 5：批量 (`webnovel-batch`)
 
-Batch-write chapters with checkpoint resume.
+批量写章，断点续跑。
 
 ```
 /webnovel-batch 5 50
 ```
 
-**Architecture:**
+**架构：**
 ```
-Main dialog
+主对话
   │
-  ├── Writer agent (chapter N) → reviews itself → passes
-  ├── Reviewer agent (chapter N, blind) → passes
-  ├── Save checkpoint
-  ├── Writer agent (chapter N+1) → ...
+  ├── 写手 agent（第 N 章）→ 自审 → 通过
+  ├── 审查 agent（第 N 章，盲审）→ 通过
+  ├── 保存断点
+  ├── 写手 agent（第 N+1 章）→ ...
   └── ...
 ```
 
-- Progress persisted in `stream_progress.json`
-- Resume after crash: `/webnovel-batch 18 50`
-- Each chapter gets a fresh writer agent (no context bleed)
+- 进度持久化到 `stream_progress.json`
+- 崩溃后续跑：`/webnovel-batch 18 50`
+- 每章使用全新写手 agent（无上下文串扰）
 
 ---
 
-## Skill 6: Craft (`webnovel-craft`)
+## 技能 6：工艺 (`webnovel-craft`)
 
-Quantitative prose quality constraints.
+量化散文质量约束。
 
-This is a **supporting skill** — loaded automatically by `webnovel-write` and `webnovel-review`. You rarely invoke it directly:
+这是一个**支撑技能**——由 `webnovel-write` 和 `webnovel-review` 自动加载。很少直接调用：
 
 ```
 python skills/webnovel/craft/scripts/prose_scanner.py "正文/第0005章-觉醒.md"
 ```
 
-Returns JSON with blocking/non-blocking issues.
+返回 JSON 格式的阻断/非阻断问题列表。
 
 ---
 
-## Skill 7: Review (`webnovel-review`)
+## 技能 7：审查 (`webnovel-review`)
 
-Blind chapter quality review.
+盲审章节质量。
 
 ```
 /webnovel-review 5
 ```
 
-**Reviewer receives:**
-- Chapter outline (CBN/CEN)
-- Previous chapter summary
-- Full chapter text
-- Craft constraints reference
+**审查者接收：**
+- 章纲（CBN/CEN）
+- 上一章摘要
+- 全文
+- 工艺约束参考
 
-**Reviews three questions:**
-1. Are all CBNs present? Are all CENs achieved?
-2. Does the chapter have at least one emotional beat?
-3. Are there prose quality issues?
+**三个审查问题：**
+1. 所有 CBN 都出现了吗？所有 CEN 都达成了吗？
+2. 本章至少有一个情绪节拍吗？
+3. 有散文质量问题吗？
 
-**Outcomes:**
-- All pass → chapter is marked passed
-- Blocking issues → user decides: fix now, save report, or abort
+**结果：**
+- 全部通过 → 标记为已通过
+- 阻断问题 → 用户决定：立即修复、保存报告、或放弃
 
 ---
 
-## Skill 8: Review Settings (`webnovel-review-settings`)
+## 技能 8：设定审查 (`webnovel-review-settings`)
 
-Audit worldview consistency.
+审查世界观一致性。
 
 ```
 /webnovel-review-settings
-/webnovel-review-settings --quick      # Blocking + high only
-/webnovel-review-settings --scope power # Single dimension
+/webnovel-review-settings --quick      # 仅阻断+高级
+/webnovel-review-settings --scope power # 单一维度
 ```
 
-**Severity levels:**
-- 🔴 **Blocking** — logic contradiction that kills writing
-- 🟠 **High** — obvious loophole
-- 🟡 **Medium** — potential edge-case隐患
-- 🟢 **Low** — polish suggestion
+**严重度等级：**
+- 🔴 **阻断** — 逻辑矛盾，导致无法写作
+- 🟠 **高** — 明显漏洞
+- 🟡 **中** — 潜在边界隐患
+- 🟢 **低** — 润色建议
 
 ---
 
-## Skill 9: Query (`webnovel-query`)
+## 技能 9：查询 (`webnovel-query`)
 
-Retrieve information from project state.
+从项目状态中检索信息。
 
 ```
 /webnovel-query 主角
@@ -227,32 +227,32 @@ Retrieve information from project state.
 /webnovel-query 力量体系
 ```
 
-Reads from:
+读取来源：
 - `.webnovel/state.json`
 - `.story-system/MASTER_SETTING.json`
-- Setting files in `设定集/`
-- RAG (WordPress-based knowledge base, if configured)
+- `设定集/` 中的设定文件
+- RAG（WordPress 知识库，如已配置）
 
 ---
 
-## Skill 10: Learn (`webnovel-learn`)
+## 技能 10：学习 (`webnovel-learn`)
 
-Extract successful writing patterns to project memory.
+提取成功写作模式到项目记忆。
 
 ```
 /webnovel-learn 本章的悬念设计很有层次感
 ```
 
-Appends to `.webnovel/project_memory.json` with pattern type classification:
+追加到 `.webnovel/project_memory.json`，自动分类 pattern_type：
 - hook, pacing, dialogue, payoff, emotion, format, other
 
-**Skips duplicates automatically.**
+**自动跳过重复条目。**
 
 ---
 
-## Skill 11: Doctor (`webnovel-doctor`)
+## 技能 11：医生 (`webnovel-doctor`)
 
-Read-only health check for novel projects.
+只读健康检查。
 
 ```
 /webnovel-doctor
@@ -260,26 +260,26 @@ Read-only health check for novel projects.
 /webnovel-doctor --deep
 ```
 
-Checks:
-- Directory structure integrity
-- File existence and completeness
-- JSON/SQLite state validity
-- RAG configuration
-- Dashboard build artifacts
+检查：
+- 目录结构完整性
+- 文件存在性和完整性
+- JSON/SQLite 状态有效性
+- RAG 配置
+- Dashboard 构建产物
 
 ---
 
-## Skill 12: Dashboard (`webnovel-dashboard`)
+## 技能 12：仪表盘 (`webnovel-dashboard`)
 
-Launch a read-only web UI for project visualization.
+启动只读 Web UI。
 
 ```
 /webnovel-dashboard
 /webnovel-dashboard --port 8080
 ```
 
-Features:
-- Project overview (word counts, chapter status)
-- Entity graph (characters, factions, locations)
-- Chapter content viewer
-- Reading power data
+功能：
+- 项目概览（字数、章节状态）
+- 实体关系图（角色、势力、地点）
+- 章节内容查看
+- 追读力数据

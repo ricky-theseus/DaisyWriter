@@ -1,17 +1,17 @@
-# DaisyWriter Quick Start 🚀
+# DaisyWriter 快速上手 🚀
 
-Get your first web novel written in 5 minutes.
+5 分钟写出你的第一章网文。
 
 ---
 
-## 1. Install
+## 1. 安装
 
 ```bash
 git clone https://github.com/ricky-theseus/DaisyWriter.git
 cd DaisyWriter
 ```
 
-Configure OpenCode to find the skills:
+在 OpenCode 中配置技能路径：
 
 ```json
 // opencode.json
@@ -20,87 +20,87 @@ Configure OpenCode to find the skills:
 }
 ```
 
-## 2. Initialize a Novel
+## 2. 立项一个小说
 
-In your AI coding assistant:
+在 AI 编程助手中输入：
 
 ```
 /webnovel-init "我的修仙之旅"
 ```
 
-The skill will guide you through an interactive interview:
-- Genre, scale, target audience
-- Protagonist (desire, flaw, arc)
-- World rules and power system
-- Golden finger type
+技能会引导你完成交互式采访：
+- 题材、规模、目标读者
+- 主角（欲望、缺陷、弧光）
+- 世界规则和力量体系
+- 金手指类型
 
-> **Don't worry about getting everything perfect** — the sufficiency gate ensures you provide enough info before generation.
+> **不必追求一次性完美** —— 充分性闸门会确保收集足够信息后才生成。
 
-**Expected output:**
+**输出：**
 ```
 ❖ 项目初始化完成 ❖
 📁 我的修仙之旅/
-├── 设定集/           # World bible
-├── 大纲/总纲.md      # Master outline
+├── 设定集/           # 世界设定
+├── 大纲/总纲.md      # 总纲
 ├── .webnovel/state.json
-└── .story-system/    # Story contracts
+└── .story-system/    # 故事合约
 ```
 
-## 3. Plan the First Volume
+## 3. 规划第一卷
 
 ```
 /webnovel-plan 1
 ```
 
-This generates:
-- Volume beat sheet (chapter-level pacing)
-- Volume timeline (in-story time)
-- Per-chapter outlines (CBN, CPN, CEN)
+生成：
+- 卷节拍表（章节级节奏）
+- 卷时间线（故事内时间）
+- 逐章大纲（CBN、CPN、CEN）
 
-## 4. Write Chapter 1
+## 4. 写第一章
 
 ```
 /webnovel-write 1
 ```
 
-The pipeline runs:
-1. **Preflight** — check project state
-2. **Context agent** — build writing brief (current chapter goal, previous events, unresolved threads)
-3. **Draft** — write 2500-3500 words
-4. **Craft scan** — run `prose_scanner.py` for quality metrics
-5. **Review** — blind review agent checks for issues
-6. **Polish & commit** — fix issues, save to file, record metrics
+全流程自动运行：
+1. **前置检查** — 检查项目状态
+2. **上下文 agent** — 构建写作简报（本章目标、前情、未解决线索）
+3. **起草** — 写 2500-3500 字
+4. **工艺扫描** — 运行 `prose_scanner.py` 量化质检
+5. **审查** — 盲审 agent 检查问题
+6. **润色并提交** — 修复问题、保存文件、记录指标
 
-## 5. Review and Iterate
+## 5. 审查和迭代
 
 ```
 /webnovel-review 1
 ```
 
-Blind review checks:
-- CBN/CEN coverage
-- Continuity with previous chapters
-- Character voice consistency
-- Pacing and information density
+盲审检查：
+- CBN/CEN 覆盖
+- 与前章的连续性
+- 角色语气一致性
+- 节奏和信息密度
 
-**Blocking issues** halt the workflow until you decide how to resolve them.
+**阻断级问题**会暂停流程，由你决定如何处理。
 
-## 6. Write More Chapters
+## 6. 批量写更多章节
 
 ```
 /webnovel-batch 2 30
 ```
 
-Batch-write chapters 2 through 30 with:
-- Serial loop: write → review → pass → next
-- Checkpoint resume (crashes restart from last passed chapter)
-- Progress persisted in `stream_progress.json`
+批量写 2-30 章：
+- 串行循环：写 → 审 → 过 → 下一章
+- 断点续跑（崩溃后从上一通过章节继续）
+- 进度持久化到 `stream_progress.json`
 
 ---
 
-## Next Steps
+## 下一步
 
-- 📖 [Web Novel Tutorial](guide-webnovel.md) — Deep dive into all 12 novel skills
-- 📝 [Short Story Guide](guide-shortstory.md) — Write Zhihu Yanxuan stories
-- 💻 [Tech Blog Guide](guide-tech.md) — Publish technical articles
-- 🐛 [Report an issue](https://github.com/ricky-theseus/DaisyWriter/issues)
+- 📖 [网文教程](guide-webnovel.md) — 12 个网文技能详解
+- 📝 [短篇指南](guide-shortstory.md) — 写知乎盐选故事
+- 💻 [技术博文指南](guide-tech.md) — 发表技术文章
+- 🐛 [报告问题](https://github.com/ricky-theseus/DaisyWriter/issues)

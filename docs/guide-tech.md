@@ -1,116 +1,116 @@
-# Technical Blogging Guide 💻
+# 技术博文指南 💻
 
-Write, batch, and auto-publish technical articles.
-
----
-
-## Overview
-
-```
-tech-deconstruct (参考) → tech-write (起草) → tech-batch (批量) → CSDN
-                                                                    │
-                                                            sync-csdn / csdn-upload
-```
+写、批量、自动发布技术文章。
 
 ---
 
-## Skill 1: Write (`tech-write`)
+## 概览
 
-Structured technical blog writing.
+```
+拆解 (参考) → 写作 (起草) → 批量 (生产) → CSDN
+                                              │
+                                      sync-csdn / csdn-upload
+```
+
+---
+
+## 技能 1：写作 (`tech-write`)
+
+结构化技术博文写作。
 
 ```
 /tech-write "用 FastAPI 构建 REST API"
 ```
 
-**Standard structure:**
-1. **Problem** — What issue does this solve?
-2. **Solution** — Step-by-step implementation
-3. **Code** — Copy-paste-runnable snippets
-4. **Verification** — How to test it works
-5. **Summary** — Key takeaways
+**标准结构：**
+1. **问题** — 解决什么问题？
+2. **方案** — 分步实现
+3. **代码** — 可复制运行的片段
+4. **验证** — 如何测试
+5. **总结** — 关键要点
 
-**Review checklist:**
-- All code snippets are copy-paste-runnable
-- Version numbers and API refs are explicit
-- Logic chain is complete (no skipped steps)
-- No blank placeholders
-- Word count matches target audience
+**审查清单：**
+- 所有代码片段可复制运行
+- 版本号和 API 引用明确
+- 逻辑链完整（无跳步）
+- 无空白占位符
+- 字数匹配目标读者
 
-**Output:** `博文/{一级}/{二级}/{三级}/{文章}.md`
+**输出：** `博文/{一级}/{二级}/{三级}/{文章}.md`
 
 ---
 
-## Skill 2: Deconstruct (`tech-deconstruct`)
+## 技能 2：拆解 (`tech-deconstruct`)
 
-Analyze reference articles for structure patterns.
+分析参考文章的结构模式。
 
 ```
 /tech-deconstruct "参考文章路径"
 ```
 
-**Analysis dimensions:**
-- Structure skeleton
-- Opening hook technique
-- Code quality and examples
-- Information density
-- Logic chain completeness
-- Reader match assessment
-- Borrowable patterns
+**分析维度：**
+- 结构骨架
+- 开头钩子技巧
+- 代码质量和示例
+- 信息密度
+- 逻辑链完整性
+- 读者匹配度
+- 可借用模式
 
 ---
 
-## Skill 3: Batch (`tech-batch`)
+## 技能 3：批量 (`tech-batch`)
 
-Batch-produce multiple articles under a topic.
+批量生产多篇文章。
 
 ```
 /tech-batch 项目目录
 ```
 
-**Two-loop architecture:**
-- **Outer loop**: Schedule items from project plan
-- **Inner loop**: Produce → Review → Revise → Re-review (until zero issues)
+**双层循环架构：**
+- **外层循环**：按计划调度条目
+- **内层循环**：生产 → 审查 → 修改 → 再审（直到零问题）
 
-**Rules:**
-- Producer and reviewer are always separate agents
-- Reviewer is always blind (no conversation history)
-- No retry limit — iterate until zero blocking
+**规则：**
+- 生产者和审查者始终是独立 agent
+- 审查者始终盲审（无对话历史）
+- 无重试限制——迭代直到零阻断
 
 ---
 
-## Skill 4: Sync CSDN (`sync-csdn`)
+## 技能 4：同步 CSDN (`sync-csdn`)
 
-Sync published CSDN articles to local repo.
+同步 CSDN 已发表文章到本地。
 
 ```
 /sync-csdn
 ```
 
-**Pipeline:**
-1. Fetch CSDN homepage
-2. Compare with local `published.json`
-3. Move matched drafts to `已发表/`
-4. Update record
+**流程：**
+1. 获取 CSDN 主页
+2. 与本地 `published.json` 对比
+3. 将匹配的草稿移到 `已发表/`
+4. 更新记录
 
 ---
 
-## Skill 5: Upload CSDN (`csdn-upload`)
+## 技能 5：上传 CSDN (`csdn-upload`)
 
-Browser-automated upload drafts to CSDN.
+浏览器自动化上传草稿到 CSDN。
 
 ```
-/csdn-upload --dry-run      # Preview three-state distribution
-/csdn-upload                # Upload all unpublished drafts
-/csdn-upload --login        # First-time login (save browser state)
-/csdn-upload --sync         # Sync publish status
+/csdn-upload --dry-run      # 预览三态分布
+/csdn-upload                # 上传所有未发布草稿
+/csdn-upload --login        # 首次登录
+/csdn-upload --sync         # 同步发布状态
 ```
 
-**Three-state management:**
+**三态管理：**
 
-| State | Meaning |
-|-------|---------|
-| 📝 **Unpublished** | Local draft, not uploaded |
-| 📤 **Draft box** | Uploaded to CSDN drafts, not published |
-| ✅ **Published** | Public on CSDN |
+| 状态 | 含义 |
+|------|------|
+| 📝 **未上传** | 本地草稿，未上传到 CSDN |
+| 📤 **草稿箱** | 已在 CSDN 草稿箱 |
+| ✅ **已发布** | CSDN 上已公开 |
 
-**Safety:** Only saves drafts — never auto-publishes.
+**安全：** 只存草稿，不会自动发布。

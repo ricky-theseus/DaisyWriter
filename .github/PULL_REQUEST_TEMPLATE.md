@@ -1,17 +1,17 @@
 ## Description / 描述
 
-Please include a summary of the change and which issue is fixed.
+请说明此 PR 的内容和动机。
 
-Fixes # (issue)
+遵循 [Development Workflow](../docs/WORKFLOW.md)。
 
 ## Type of Change / 变更类型
 
-- [ ] Bug fix / 修复
-- [ ] New feature / 新功能
-- [ ] Documentation / 文档
-- [ ] Refactoring / 重构
-- [ ] Internationalization / 国际化
-- [ ] Other / 其他
+- [ ] feat — 新功能 / 新 skill
+- [ ] fix — 修复
+- [ ] docs — 文档
+- [ ] sync — 从 Writer 同步
+- [ ] refactor — 重构
+- [ ] chore — 构建 / CI
 
 ## Domain / 领域
 
@@ -20,16 +20,18 @@ Fixes # (issue)
 - [ ] Tech Blog / 技术博文
 - [ ] Publishing / 发布
 - [ ] Infrastructure / 基础设施
+- [ ] Documentation / 文档
+- [ ] Adapter / 适配器
 
-## Checklist / 检查清单
+## PR Checklist
 
-- [ ] I have read [CONTRIBUTING.md](../CONTRIBUTING.md)
-- [ ] My code follows the project's style guidelines
-- [ ] I have tested the skill in OpenCode
-- [ ] My changes generate no new warnings
-- [ ] SKILL.md YAML front matter is complete
-- [ ] Hard rules and quality gates are documented
+- [ ] 我只改了一个逻辑单元
+- [ ] 分支名遵循规范（feat/fix/docs/sync/...）
+- [ ] 提交信息清晰且有 type 前缀
+- [ ] 所有新文件都有 SKILL.md YAML front matter
+- [ ] 路径引用在目标平台下有效
+- [ ] 没有泄漏个人信息或作品内容
+- [ ] 没有硬编码的本地路径
+- [ ] 文档已同步更新（如适用）
 
-## Additional Notes / 补充说明
-
-Any additional information that's helpful for reviewers.
+## Notes / 补充说明

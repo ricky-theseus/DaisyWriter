@@ -1,0 +1,81 @@
+name: PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check file size
+        run: |
+          max_size=52428800  # 50MB
+          oversized=$(find . -not -path './.git/*' -not -path './node_modules/*' -type f -size +${max_size}c -print)
+          if [ -n "$oversized" ]; then
+            echo "Oversized files:"
+            echo "$oversized"
+            exit 1
+          fi
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          errors=0
+          while IFS= read -r -d '' f; do
+            if head -1 "$f" | grep -q '^---$'; then
+              has_name=$(grep -c '^name:' "$f" || true)
+              has_desc=$(grep -c '^description:' "$f" || true)
+              if [ "$has_name" -eq 0 ] || [ "$has_desc" -eq 0 ]; then
+                echo "⚠  Missing frontmatter fields: $f"
+                errors=$((errors+1))
+              fi
+            fi
+          done < <(find . -name 'SKILL.md' -not -path './.git/*' -not -path './node_modules/*' -print0)
+          if [ "$errors" -gt 0 ]; then
+            echo "Found $errors SKILL.md files with issues"
+            exit 1
+          fi
+          echo "All SKILL.md frontmatter valid"
+
+      - name: Check for personal info leaks
+        run: |
+          leaks=0
+          patterns=(
+            "rick.Theseus@cug"
+            "D:\\\\Writer"
+            "诡异熔炉"
+            "未命名者"
+          )
+          for pattern in "${patterns[@]}"; do
+            if grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v '\.github/'; then
+              echo "⚠  Possible leak: '$pattern' found in files above"
+              leaks=$((leaks+1))
+            fi
+          done
+          if [ "$leaks" -gt 0 ]; then
+            exit 1
+          fi
+          echo "No personal info leaks detected"
+
+      - name: Python syntax check
+        run: |
+          errors=0
+          while IFS= read -r -d '' f; do
+            python -m py_compile "$f" 2>/dev/null || { echo "Syntax error: $f"; errors=$((errors+1)); }
+          done < <(find . -name '*.py' -not -path './.git/*' -not -path './node_modules/*' -not -path './__pycache__/*' -print0)
+          if [ "$errors" -gt 0 ]; then
+            exit 1
+          fi
+          echo "All Python files syntax-valid"
+
+      - name: Branch naming convention
+        run: |
+          branch="${{ github.head_ref }}"
+          if ! echo "$branch" | grep -qE '^(feat|fix|docs|sync|refactor|chore)/'; then
+            echo "Branch name '$branch' does not follow convention: {type}/description"
+            exit 1
+          fi
+          echo "Branch name '$branch' OK"

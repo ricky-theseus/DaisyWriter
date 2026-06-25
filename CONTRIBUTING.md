@@ -101,17 +101,13 @@ argument-hint: "[optional args]"
 
 ## Pull Request Process
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feat/amazing-skill`)
-3. Commit your changes:
-   - Use clear, descriptive commit messages
-   - Keep commits atomic (one logical change per commit)
-4. Push to your fork (`git push origin feat/amazing-skill`)
-5. Open a Pull Request with:
-   - Clear title and description
-   - What the PR does and why
-   - Any breaking changes or migration steps
-   - Screenshots for UI changes (if applicable)
+1. Read the [Development Workflow](docs/WORKFLOW.md) first
+2. Check relevant skills before starting
+3. Create a feature branch (`git checkout -b feat/amazing-skill`)
+4. Commit your changes using [conventional commit format](docs/WORKFLOW.md#commit-规范)
+5. Push to your fork (`git push origin feat/amazing-skill`)
+6. Open a Pull Request against the `master` branch
+7. Run through the [PR Checklist](docs/WORKFLOW.md#pr-checklist) before requesting review
 
 ### PR Review Criteria
 

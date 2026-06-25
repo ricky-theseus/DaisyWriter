@@ -11,7 +11,7 @@
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node_18+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"></a>
   <br>
   <a href="#-project-overview">English</a> ·
-  <a href="./docs/README.zh.md">中文</a>
+  <a href="./docs/README.md">中文</a>
 </p>
 
 ---
@@ -234,12 +234,12 @@ Browser-automated chapter publishing to Fanqie Novel:
 
 ## 🧭 Documentation
 
-| Document | Description |
-|----------|-------------|
-| [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) | 5-minute setup & first novel |
-| [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) | Complete web novel tutorial |
-| [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) | Short story writing guide |
-| [`docs/guide-tech.md`](./docs/guide-tech.md) | Technical blogging guide |
+| Document | Description | 中文 |
+|----------|-------------|------|
+| [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) | 5-min setup & first novel | [快速上手](./docs/QUICKSTART.md) |
+| [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) | Complete web novel tutorial | [网文写作指南](./docs/guide-webnovel.md) |
+| [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) | Short story writing guide | [短篇写作指南](./docs/guide-shortstory.md) |
+| [`docs/guide-tech.md`](./docs/guide-tech.md) | Technical blogging guide | [技术博文指南](./docs/guide-tech.md) |
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | How to contribute |
 
 ---
