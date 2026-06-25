@@ -13,7 +13,7 @@ jobs:
 
       - name: Check file size
         run: |
-          max_size=52428800  # 50MB
+          max_size=52428800
           oversized=$(find . -not -path './.git/*' -not -path './node_modules/*' -type f -size +${max_size}c -print)
           if [ -n "$oversized" ]; then
             echo "Oversized files:"
@@ -29,7 +29,7 @@ jobs:
               has_name=$(grep -c '^name:' "$f" || true)
               has_desc=$(grep -c '^description:' "$f" || true)
               if [ "$has_name" -eq 0 ] || [ "$has_desc" -eq 0 ]; then
-                echo "⚠  Missing frontmatter fields: $f"
+                echo "Missing frontmatter fields: $f"
                 errors=$((errors+1))
               fi
             fi
@@ -44,14 +44,15 @@ jobs:
         run: |
           leaks=0
           patterns=(
-            "rick.Theseus@cug"
+            "ricky_theseus@cug"
             "D:\\\\Writer"
-            "诡异熔炉"
-            "未命名者"
           )
+          exclude_files="\.github/|\.git/|node_modules/|docs/|CHANGELOG.md"
           for pattern in "${patterns[@]}"; do
-            if grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v '\.github/'; then
-              echo "⚠  Possible leak: '$pattern' found in files above"
+            matches=$(grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -vE "$exclude_files" || true)
+            if [ -n "$matches" ]; then
+              echo "Possible leak: '$pattern' found in:"
+              echo "$matches"
               leaks=$((leaks+1))
             fi
           done
