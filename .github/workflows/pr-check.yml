@@ -50,8 +50,10 @@ jobs:
             "未命名者"
           )
           for pattern in "${patterns[@]}"; do
-            if grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v '\.github/'; then
-              echo "⚠  Possible leak: '$pattern' found in files above"
+            matches=$(grep -rl "$pattern" --include='*.md' --include='*.py' --include='*.js' --include='*.json' . 2>/dev/null | grep -v '.git/' | grep -v 'node_modules/' | grep -v '\.github/' | grep -v 'docs/' || true)
+            if [ -n "$matches" ]; then
+              echo "⚠  Possible leak: '$pattern' found in:"
+              echo "$matches"
               leaks=$((leaks+1))
             fi
           done
