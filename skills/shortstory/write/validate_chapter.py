@@ -96,8 +96,8 @@ def main():
     writable = cs.get("status") in ("pending", "writing", "blocking")
 
     if writable:
-        # 如果是 pending，标记为 writing（首次开写）
-        if cs.get("status") == "pending" and actual_chars == 0:
+        # 如果是 pending，标记为 writing（首次开写或者已预写内容）
+        if cs.get("status") == "pending":
             status["chapters"][str(cc)]["status"] = "writing"
 
         # 已有内容才校验
