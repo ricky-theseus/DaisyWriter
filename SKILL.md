@@ -39,6 +39,8 @@ Or via command:
 - [`learn`](skills/webnovel/learn/) — Pattern extraction / 模式学习
 - [`doctor`](skills/webnovel/doctor/) — Health diagnostic / 健康检查
 - [`dashboard`](skills/webnovel/dashboard/) — Web UI dashboard / 仪表盘
+- [`scan`](skills/webnovel/scan/) — Market scouting / 扫榜（新增）
+- [`deslop`](skills/webnovel/deslop/) — Remove AI writing style / 去AI味（新增）
 
 ### Short Story (短篇创作 — `skills/shortstory/`)
 - [`deconstruct`](skills/shortstory/deconstruct/) — Reference analysis / 拆书
@@ -57,8 +59,11 @@ Or via command:
 ### Publishing (发布自动化 — `skills/fanqie/`)
 - [`fanqie-publish`](skills/fanqie/) — Publish to Fanqie Novel / 发布到番茄小说
 
-### Tools (工具 — `skills/cover-maker/`)
+### Tools (工具)
 - [`cover-maker`](skills/cover-maker/) — AI book cover generation / AI 封面生成
+- [`wechat-article-writer`](skills/wechat-article-writer/) — WeChat article writing / 公众号文章（新）
+- [`xiaohongshu-technical-post-copy`](skills/xiaohongshu-technical-post-copy/) — Xiaohongshu tech copy / 小红书技术文案（新）
+- [`xiaohongshu-minimal-technical-infographic`](skills/xiaohongshu-minimal-technical-infographic/) — Xiaohongshu infographic / 小红书信息图（新）
 
 ## Adapters
 
