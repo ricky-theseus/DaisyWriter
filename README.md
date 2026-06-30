@@ -35,11 +35,11 @@
 
 | Domain | Skills | What you can do |
 |--------|--------|-----------------|
-| 📚 **Web Novel** | 12 | Plan, write, review, and batch-produce web novels |
+| 📚 **Web Novel** | 14 | Plan, write, review, scan, deslop, and batch-produce web novels |
 | 📝 **Short Story** | 5 | Init, write, and blind-review Zhihu Yanxuan stories |
 | 💻 **Tech Blog** | 5 | Write, batch, and auto-publish technical articles |
 | 🤖 **Publishing** | 1 | Browser-automated publish to Fanqie Novel |
-| 🔧 **Tools** | 1 | AI-generated book covers |
+| 🔧 **Tools** | 5 | Cover generation, WeChat articles, Xiaohongshu posts |
 
 ### Architecture
 
