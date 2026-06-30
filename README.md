@@ -1,14 +1,19 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/DaisyWriter-v1.0.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white" alt="DaisyWriter">
-  <img src="https://img.shields.io/badge/24_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="24 Skills">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white">
+    <img src="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white" alt="DaisyWriter">
+  </picture>
+  <img src="https://img.shields.io/badge/30_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="30 Skills">
 </p>
 
 <p align="center">
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-GPL_v3-blue.svg?style=flat-square" alt="GPL v3"></a>
   <a href="https://github.com/anomalyco/opencode"><img src="https://img.shields.io/badge/OpenCode-0.6+-blue?style=flat-square" alt="OpenCode"></a>
-  <a href="./docs/QUICKSTART.md"><img src="https://img.shields.io/badge/Quick_Start-8B5CF6?style=flat-square" alt="Quick Start"></a>
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python_3.8+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
-  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node_18+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"></a>
+  <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/Claude_Code-Ready-black?style=flat-square&logo=anthropic" alt="Claude Code"></a>
+  <a href="https://github.com/openai/codex"><img src="https://img.shields.io/badge/Codex_CLI-WIP-gray?style=flat-square" alt="Codex CLI"></a>
+  <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-8B5CF6?style=flat-square" alt="Quick Start"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python_3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node_18%2B-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"></a>
   <br>
   <a href="#-project-overview">English</a> ·
   <a href="./docs/README.md">中文</a>
@@ -19,90 +24,140 @@
 <h1 align="center">✍️ DaisyWriter</h1>
 
 <p align="center">
-  <b>AI writing toolkit — from blank page to published novel.</b><br>
-  <b>A skill collection for OpenCode, Claude Code, and beyond.</b>
+  <b>Turn your AI coding assistant into a full writing studio.</b><br>
+  <i>A skill collection for OpenCode, Claude Code, and beyond — covering web novels, short stories, tech blogs, and publishing automation.</i>
 </p>
 
 <p align="center">
-  <i>大纲 → 设定 → 写章 → 审查 → 发布 —— 一个指令完成</i>
+  <code>大纲 → 设定 → 写章 → 审查 → 发布</code> &nbsp;·&nbsp; <code>扫榜 → 去AI味 → 定稿</code>
 </p>
 
 ---
 
 ## 📋 Project Overview
 
-**DaisyWriter** turns your AI coding assistant into a professional writing studio. It provides **24 composable skills** across the full content creation lifecycle:
+DaisyWriter is an open-source skill collection that transforms AI coding assistants into professional writing tools. It provides **30 composable skills** organized into five domains, each covering a complete content creation lifecycle.
 
-| Domain | Skills | What you can do |
-|--------|--------|-----------------|
-| 📚 **Web Novel** | 14 | Plan, write, review, scan, deslop, and batch-produce web novels |
-| 📝 **Short Story** | 5 | Init, write, and blind-review Zhihu Yanxuan stories |
-| 💻 **Tech Blog** | 5 | Write, batch, and auto-publish technical articles |
-| 🤖 **Publishing** | 1 | Browser-automated publish to Fanqie Novel |
-| 🔧 **Tools** | 5 | Cover generation, WeChat articles, Xiaohongshu posts |
+| Domain | Skills | Pipeline |
+|--------|:------:|----------|
+| 📚 **Web Novel** | 14 | Deconstruct → Init → Plan → Write → Batch → Review → Scan → Deslop → Publish |
+| 📝 **Short Story** | 5 | Init → Write → Review → Craft → Deconstruct |
+| 💻 **Tech Blog** | 5 | Deconstruct → Write → Batch → CSDN Sync → CSDN Upload |
+| 🤖 **Publishing** | 1 | Fanqie Novel browser-automated publishing |
+| 🔧 **Platform Tools** | 5 | Cover generator, WeChat writer, Xiaohongshu posts |
 
-### Architecture
+### Project Structure
 
 ```
 DaisyWriter/
-├── skills/                     # 24 skills by domain
-│   ├── webnovel/               #   12 — full web novel pipeline
-│   │   ├── init/ plan/ write/ batch/ craft/
-│   │   └── review/ review-settings/ query/ learn/
-│   │   └── deconstruct/ doctor/ dashboard/
-│   ├── shortstory/             #    5 — short story pipeline
-│   │   └── init/ write/ review/ craft/ deconstruct/
-│   ├── tech/                   #    5 — tech blog pipeline
-│   │   └── write/ deconstruct/ batch/ sync-csdn/ csdn-upload/
-│   ├── fanqie/                 #    1 — Fanqie Novel publishing
-│   └── cover-maker/            #    1 — AI cover generation
-├── adapters/                   # Platform entry points
-│   ├── opencode/               #   OpenCode
-│   ├── claude-code/            #   Claude Code
-│   └── codex/                  #   Codex CLI (WIP)
-├── docs/                       # Tutorials & reference
-│   ├── QUICKSTART.md           #   5-minute setup
-│   ├── guide-webnovel.md       #   Web novel tutorial
-│   ├── guide-shortstory.md     #   Short story tutorial
-│   └── ...                     #   More guides
-└── shared/                     # Cross-domain references
+├── skills/                          # 30 skills across 5 domains
+│   ├── webnovel/                    #   14 skills
+│   │   ├── deconstruct/ init/ plan/ write/ batch/
+│   │   ├── craft/ review/ review-settings/
+│   │   ├── scan/ deslop/            # ← New: scouting + de-AI
+│   │   └── query/ learn/ doctor/ dashboard/
+│   ├── shortstory/                  #    5 skills
+│   ├── tech/                        #    5 skills
+│   ├── fanqie/                      #    1 skill + Node.js scripts
+│   ├── cover-maker/                 #    1 skill
+│   ├── wechat-article-writer/       #    1 skill
+│   └── xiaohongshu-*/               #    2 skills
+├── adapters/                        # Platform entry points
+│   ├── opencode/                    #   Native SKILL.md
+│   ├── claude-code/                 #   CLAUDE.md
+│   └── codex/                       #   Setup script
+├── docs/                            # Tutorials & references
+└── shared/                          # Cross-domain references
 ```
 
 ---
 
-## 🚀 30-Second Demo
+## 🎯 Skills by Domain
 
-```bash
-# 1. Initialize a web novel project
-/webnovel-init "My Epic Fantasy"
+### 📚 Web Novel — 14 skills
 
-# 2. Plan the first volume
-/webnovel-plan 1
+Full lifecycle from market research to polished chapters:
 
-# 3. Write chapter 1
-/webnovel-write 1
-
-# 4. Review it
-/webnovel-review 1
-
-# 5. Publish to Fanqie Novel
-/fanqie-publish --file "正文/第0001章-觉醒.md"
+```
+Market Scan ──→ Deconstruct ──→ Init ──→ Plan ──→ Write ──→ Review ──→ Deslop ──→ Publish
+                      ↑                        ↑           ↑
+                 (reference)              (batch 1-30)  (blind, settings)
 ```
 
-**That's it.** Each command runs a complete AI-powered pipeline with built-in quality gates, blind review, and failure recovery.
+| # | Command | Purpose | Key Feature |
+|---|---------|---------|-------------|
+| 1 | `/webnovel-scan long\|short` | **Scan** bestseller charts across platforms | Qidian, Fanqie, Jinjiang, Qimao, etc. |
+| 2 | `/webnovel-deconstruct <title>` | Analyze a reference novel | Emotion curve + pacing stats |
+| 3 | `/webnovel-init <title>` | Interactive project creation | Sufficiency gates prevent half-baked projects |
+| 4 | `/webnovel-plan <volume>` | Volume beat sheet + chapter outlines | CBN/CPN/CEN per chapter |
+| 5 | `/webnovel-write <chapter>` | Single chapter with quality gates | 3 modes: default / --fast / --minimal |
+| 6 | `/webnovel-batch <start> <end>` | Batch write with checkpoint resume | Crash recovery |
+| 7 | `/webnovel-craft` | Prose quality constraints (loaded automatically) | Quantitative scanner |
+| 8 | `/webnovel-review <chapter>` | Blind chapter review | 3-question gate |
+| 9 | `/webnovel-review-settings` | Setting consistency audit | 4 severity levels |
+| 10 | `/webnovel-deslop <file>` | **Remove AI writing style** | 7-Gate detection + graded removal |
+| 11 | `/webnovel-query <keyword>` | Query project state | Character, foreshadowing, power system |
+| 12 | `/webnovel-learn <pattern>` | Save writing pattern to memory | Auto-deduplication |
+| 13 | `/webnovel-doctor` | Health diagnostic | Read-only, no side effects |
+| 14 | `/webnovel-dashboard` | Launch web UI | Entity graph + chapter viewer |
+
+### 📝 Short Story — 5 skills
+
+State-machine-driven writing for Zhihu Yanxuan and medium-length fiction:
+
+```
+shortstory-init ──→ shortstory-write ──→ shortstory-review ──→ final
+      ↑                    ↑                      ↑
+  (blind review)    (word-count gate)      (stage-aware)
+```
+
+| # | Command | Purpose |
+|---|---------|---------|
+| 1 | `/shortstory-init <count> <genre>` | Initialize projects + blind review loop |
+| 2 | `/shortstory-write <path>` | Rolling write with validate_chapter.py gate |
+| 3 | `/shortstory-review <path>` | Stage-aware blind review (single / full) |
+| 4 | `/shortstory-craft` | Quality constraints (loaded automatically) |
+| 5 | `/shortstory-deconstruct <ref>` | Extract hook/suspense/pacing patterns |
+
+### 💻 Tech Blog — 5 skills
+
+Structured technical writing with CSDN integration:
+
+| # | Command | Purpose |
+|---|---------|---------|
+| 1 | `/tech-deconstruct <ref>` | Analyze reference article structure |
+| 2 | `/tech-write <title>` | Problem → Solution → Code → Verify → Summary |
+| 3 | `/tech-batch <dir>` | Batch production with inner review loop |
+| 4 | `/csdn-upload [--dry-run\|--sync]` | Upload drafts to CSDN via browser automation |
+| 5 | `/sync-csdn` | Sync published articles to local repo |
+
+### 🤖 Publishing — 1 skill
+
+| Command | Purpose |
+|---------|---------|
+| `/fanqie-publish --preview` | Preview parsed chapters |
+| `/fanqie-publish --login` | QR code login |
+| `/fanqie-publish --fill-only` | Save as draft (safe mode) |
+| `/fanqie-publish --confirm-publish` | Publish immediately or schedule |
+
+### 🔧 Platform Tools — 5 skills
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| **cover-maker** | `node skills/cover-maker/generate_cover.js <path>` | AI generates 600×800 book covers for all candidate titles |
+| **wechat-article-writer** | `/wechat-article-writer` | Write WeChat official account articles |
+| **xiaohongshu-technical-post-copy** | `/xiaohongshu-technical-post-copy` | Xiaohongshu tech copywriting |
+| **xiaohongshu-minimal-technical-infographic** | `/xiaohongshu-minimal-technical-infographic` | Minimalist tech infographics for Xiaohongshu |
 
 ---
 
-## 🛠️ Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
-| Requirement | Version | For |
-|-------------|---------|-----|
-| [OpenCode](https://opencode.ai) | ≥ 0.6 | Running skills |
-| Python | ≥ 3.8 | Prose scanner, utility scripts |
-| Node.js | ≥ 18 | Fanqie publisher, cover generator |
-| Playwright | latest | Browser automation |
+- [OpenCode](https://opencode.ai) ≥ 0.6 (or Claude Code)
+- Python ≥ 3.8, Node.js ≥ 18
+- Playwright (for browser automation, optional)
 
 ### Install
 
@@ -110,150 +165,70 @@ DaisyWriter/
 git clone https://github.com/ricky-theseus/DaisyWriter.git
 cd DaisyWriter
 
-# For Fanqie publishing (optional):
-cd skills/fanqie
-npm install && npx playwright install chromium
-cd ../..
+# Optional: Fanqie publishing
+cd skills/fanqie && npm install && npx playwright install chromium && cd ../..
 
-# For cover generation (optional):
-cd skills/cover-maker
-npm install
-cd ../..
+# Optional: Cover generation
+cd skills/cover-maker && npm install && cd ../..
 ```
 
-### Load in OpenCode
+### Use
 
-Add to your `opencode.json`:
+Add to `opencode.json`:
 ```json
-{
-  "skills": ["path/to/DaisyWriter"]
-}
+{ "skills": ["path/to/DaisyWriter"] }
 ```
 
-Or load a skill directly:
+Then in your AI assistant:
+
 ```python
+# Start a web novel from scratch
+skill("skills/webnovel/init")
+# Write chapter 1
 skill("skills/webnovel/write")
 ```
-
-> 📖 Full walkthrough: [docs/QUICKSTART.md](./docs/QUICKSTART.md)
-
----
-
-## 🎯 Skills by Domain
-
-### 📚 Web Novel — 12 skills
-
-Complete pipeline from deconstruction to dashboard:
-
-| Step | Command | What happens |
-|------|---------|-------------|
-| 1 | `/webnovel-deconstruct 书名` | Analyze a reference novel |
-| 2 | `/webnovel-init "我的小说"` | Interactive worldbuilding + sufficiency gates |
-| 3 | `/webnovel-plan 1` | Generate volume beat sheet + chapter outlines |
-| 4 | `/webnovel-write 1` | Write chapter with prose quality scan |
-| 5 | `/webnovel-batch 1 30` | Batch-write chapters 1-30 with checkpoint resume |
-| 6 | `/webnovel-review 5` | Blind review chapter 5 |
-| 7 | `/webnovel-review-settings` | Audit setting consistency |
-| 8 | `/webnovel-query 主角` | Query project state |
-| 9 | `/webnovel-learn 这段对话写得妙` | Save writing pattern to memory |
-| 10 | `/webnovel-doctor` | Health diagnostic |
-| 11 | `/webnovel-dashboard` | Launch web UI |
-
-> 📖 Tutorial: [docs/guide-webnovel.md](./docs/guide-webnovel.md)
-
-### 📝 Short Story — 5 skills
-
-Zhihu Yanxuan / medium-length rolling write:
-
-| Step | Command | What happens |
-|------|---------|-------------|
-| 1 | `/shortstory-init 3 悬疑` | Init 3 suspense stories + blind review loop |
-| 2 | `/shortstory-write 悬疑/白骨墙` | Rolling write with word-count gate |
-| 3 | `/shortstory-review 悬疑/白骨墙` | Stage-aware blind review |
-| 4 | `/shortstory-deconstruct 参考文` | Extract hook/suspense/pacing patterns |
-
-> 📖 Tutorial: [docs/guide-shortstory.md](./docs/guide-shortstory.md)
-
-### 💻 Tech Blog — 5 skills
-
-Structured technical writing:
-
-| Step | Command | What happens |
-|------|---------|-------------|
-| 1 | `/tech-deconstruct 参考文` | Analyze reference article |
-| 2 | `/tech-write "用FastAPI写API"` | Structure → Draft → Review → Final |
-| 3 | `/tech-batch 项目目录` | Batch produce multiple articles |
-| 4 | `/csdn-upload --dry-run` | Preview upload state |
-| 5 | `/csdn-upload` | Upload drafts to CSDN |
-
-> 📖 Tutorial: [docs/guide-tech.md](./docs/guide-tech.md)
-
-### 🤖 Publishing — 1 skill
-
-Browser-automated chapter publishing to Fanqie Novel:
-
-| Step | Command | What happens |
-|------|---------|-------------|
-| 1 | `/fanqie-publish --preview` | Preview chapter parse result |
-| 2 | `/fanqie-publish --login` | QR code login |
-| 3 | `/fanqie-publish --fill-only` | Save as draft (safe) |
-| 4 | `/fanqie-publish --confirm-publish` | Publish immediately |
-
-> 📖 Setup: [skills/fanqie/README.md](./skills/fanqie/README.md)
-
-### 🔧 Cover Maker — 1 skill
-
-| Command | What happens |
-|---------|-------------|
-| `node skills/cover-maker/generate_cover.js "长篇/奇幻/我的小说"` | Generate 600×800 covers for all candidate titles |
 
 ---
 
 ## ✨ Design Philosophy
 
-| Principle | What it means |
-|-----------|---------------|
-| 🧠 **Sub-agent isolation** | Writer and reviewer are always separate AI agents |
-| 🙈 **Blind review** | Reviewer has no memory of previous passes |
-| 🚪 **Quality gates** | Sufficiency → Craft → Review → Pre-commit |
-| 📈 **Incremental** | Only append, never overwrite. Retry only the failed step |
-| 🧹 **Clean output** | No version markers, no AI metadata in final files |
+| Principle | Description |
+|-----------|-------------|
+| **🧠 Sub-agent isolation** | Writer and reviewer are always separate AI agents with no shared context |
+| **🙈 Blind review** | Reviewer has zero memory of previous passes — genuine quality assessment |
+| **🚪 Multi-layer gates** | Sufficiency → Craft (quantitative) → Review (qualitative) → Pre-commit |
+| **📈 Incremental only** | Append never overwrite. Failure retries only the failed step |
+| **🧹 Clean output** | No version markers, revision notes, or AI metadata in final files |
+| **🔬 Data-driven craft** | Prose scanner enforces quantitative sentence-length/style constraints |
 
 ---
 
 ## 🧩 Platform Support
 
-| Platform | Status | Entry |
-|----------|--------|-------|
+| Platform | Status | Entry Point |
+|----------|--------|-------------|
 | [OpenCode](https://opencode.ai) | ✅ Native | [`SKILL.md`](./SKILL.md) |
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ Ready | [`adapters/claude-code/`](./adapters/claude-code/) |
-| Codex CLI | 🚧 WIP | [`adapters/codex/`](./adapters/codex/) |
-| GitHub Copilot | 📋 Planned | — |
+| [Codex CLI](https://github.com/openai/codex) | 🚧 WIP | [`adapters/codex/`](./adapters/codex/) |
 
 ---
 
 ## 🧭 Documentation
 
-| Document | Description | 中文 |
-|----------|-------------|------|
-| [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) | 5-min setup & first novel | [快速上手](./docs/QUICKSTART.md) |
-| [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) | Complete web novel tutorial | [网文写作指南](./docs/guide-webnovel.md) |
-| [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) | Short story writing guide | [短篇写作指南](./docs/guide-shortstory.md) |
-| [`docs/guide-tech.md`](./docs/guide-tech.md) | Technical blogging guide | [技术博文指南](./docs/guide-tech.md) |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | How to contribute |
+| Guide | English | 中文 |
+|-------|---------|------|
+| Quick Start | [`docs/QUICKSTART.en.md`](./docs/QUICKSTART.en.md) | [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) |
+| Web Novel Tutorial | [`docs/guide-webnovel.en.md`](./docs/guide-webnovel.en.md) | [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) |
+| Short Story Guide | [`docs/guide-shortstory.en.md`](./docs/guide-shortstory.en.md) | [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) |
+| Tech Blog Guide | [`docs/guide-tech.en.md`](./docs/guide-tech.en.md) | [`docs/guide-tech.md`](./docs/guide-tech.md) |
 
 ---
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+See [CONTRIBUTING.md](./CONTRIBUTING.md) and [Development Workflow](./docs/WORKFLOW.md).
 
-**Help wanted:**
-- 🌐 English translations & i18n
-- 🔌 Additional AI assistant adapters
-- 📖 More tutorial content
-- 🎨 Dashboard UI
-- 🐛 Bug reports & fixes
+All changes go through branch → PR → CI → merge. No direct pushes to master.
 
 ---
 
@@ -270,7 +245,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 ---
 
 <p align="center">
-  <b>DaisyWriter</b> — built by <a href="https://github.com/ricky-theseus">@ricky-theseus</a>
-  <br>
-  <sub>Star us on GitHub — it helps others discover the project ⭐</sub>
+  <sub>Built by <a href="https://github.com/ricky-theseus">@ricky-theseus</a> · Star on GitHub ⭐</sub>
 </p>
