@@ -30,7 +30,7 @@ argument-hint: "[卷号，如 1]"
 ```bash
 export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
 export CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-${OPENCODE_PLUGIN_ROOT:-}}"
-export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT}/skills/webnovel/plan"
+export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT}/skills/webnovel-plan"
 export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
 export PROJECT_ROOT="$(python "${SCRIPTS_DIR}/webnovel.py" --project-root "${WORKSPACE_ROOT}" where)"
 
@@ -45,15 +45,16 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" pla
 
 | 触发 | 读取方式 | 文件 |
 |------|---------|------|
-| Step 4 | 全文 | `${SKILL_ROOT}/../../../templates/output/大纲-卷节拍表.md` |
-| Step 5 | 全文 | `${SKILL_ROOT}/../../../templates/output/大纲-卷时间线.md` |
-| Step 6 always | 区段 | `${SKILL_ROOT}/../../../references/genre-profiles.md`（仅当前 genre 的 `### 2.x` 段） |
-| Step 6 always | 全文 | `${SKILL_ROOT}/../../../references/shared/strand-weave-pattern.md` |
-| 章纲拆分 always | 区段 | `${SKILL_ROOT}/../../../references/outlining/plot-signal-vs-spoiler.md` |
-| Step 6 需要爽点 | 区段 | `${SKILL_ROOT}/../../../references/shared/cool-points-guide.md` |
+| Step 4 | 全文 | `${SKILL_ROOT}/../../templates/output/大纲-卷节拍表.md` |
+| Step 5 | 全文 | `${SKILL_ROOT}/../../templates/output/大纲-卷时间线.md` |
+| Step 6 always | 区段 | `${SKILL_ROOT}/../../references/genre-profiles.md`（仅当前 genre 的 `### 2.x` 段） |
+| Step 6 always | 全文 | `${SKILL_ROOT}/../../references/shared/strand-weave-pattern.md` |
+| 章纲拆分 always | 区段 | `${SKILL_ROOT}/../../references/outlining/plot-signal-vs-spoiler.md` |
+| Step 6 需要爽点 | 区段 | `${SKILL_ROOT}/../../references/shared/cool-points-guide.md` |
 | Step 6/7 需要冲突 | 区段 | `${SKILL_ROOT}/references/outlining/conflict-design.md` |
 | Step 6/7 特定节奏 | 区段 | `${SKILL_ROOT}/references/outlining/genre-volume-pacing.md` |
-| Step 7 追读力分析 | 区段 | `${SKILL_ROOT}/../../../references/reading-power-taxonomy.md` |
+| Step 6 章节类型/节奏 | 区段 | `${SKILL_ROOT}/references/chapter-types-and-rhythm.md` |
+| Step 7 追读力分析 | 区段 | `${SKILL_ROOT}/../../references/reading-power-taxonomy.md` |
 | Step 7 章纲细化 + 节点规范 | 区段 | `${SKILL_ROOT}/references/outlining/chapter-planning.md` |
 
 CSV 创作参考用检索读，不 `cat` 整表：
@@ -110,7 +111,7 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" mem
 
 ### Step 4：生成卷节拍表
 
-加载模板 `${SKILL_ROOT}/../../../templates/output/大纲-卷节拍表.md`。
+加载模板 `${SKILL_ROOT}/../../templates/output/大纲-卷节拍表.md`。
 
 硬要求：必须填写中段反转，确无则写"无（理由：...）"；危机链至少 3 次递增；卷末新钩子必须能落到最后一章的章末未闭合问题。
 
@@ -118,7 +119,7 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" mem
 
 ### Step 5：生成卷时间线表
 
-加载模板 `${SKILL_ROOT}/../../../templates/output/大纲-卷时间线.md`。
+加载模板 `${SKILL_ROOT}/../../templates/output/大纲-卷时间线.md`。
 
 硬要求：必须明确时间体系与本卷时间跨度；有倒计时事件时列出并标记 D-N。
 
@@ -126,7 +127,7 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" mem
 
 ### Step 6：生成卷纲骨架
 
-必读 `${SKILL_ROOT}/../../../references/genre-profiles.md` 与 `${SKILL_ROOT}/../../../references/shared/strand-weave-pattern.md`；按需读取爽点 / 冲突 / 节奏 reference（见读取策略表）。
+必读 `${SKILL_ROOT}/../../references/genre-profiles.md` 与 `${SKILL_ROOT}/../../references/shared/strand-weave-pattern.md`；按需读取爽点 / 冲突 / 节奏 reference（见读取策略表）。
 
 卷纲必须明确：卷摘要、关键人物与反派层级、Strand 分布、爽点密度规划、伏笔规划、约束触发规划。
 
@@ -140,7 +141,7 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" mem
 
 批次规则：默认 `10章/批`；复杂题材或多线并进降到 `8章/批`；简单升级流放宽到 `12章/批`；不建议单批超过 `12章`。
 
-按需读取 `${SKILL_ROOT}/../../../references/reading-power-taxonomy.md` 与 `${SKILL_ROOT}/references/outlining/chapter-planning.md`。
+按需读取 `${SKILL_ROOT}/../../references/reading-power-taxonomy.md` 与 `${SKILL_ROOT}/references/outlining/chapter-planning.md`。
 
 每章必须包含：目标、阻力、代价、时间锚点、章内时间跨度、与上章时间差、倒计时状态、爽点、Strand、反派层级、视角/主角、关键实体、本章变化、章末未闭合问题、钩子，以及结构化节点 `CBN`、`CPNs`、`CEN`、`必须覆盖节点`、`本章禁区`。
 

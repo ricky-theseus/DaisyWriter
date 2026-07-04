@@ -17,7 +17,7 @@ argument-hint: "[查询词，如 角色名/伏笔/境界]"
 export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
 export CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-${OPENCODE_PLUGIN_ROOT:-}}"
 export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
-export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT}/skills/webnovel/query"
+export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT}/skills/webnovel-query"
 export PROJECT_ROOT="$(python "${SCRIPTS_DIR}/webnovel.py" --project-root "${WORKSPACE_ROOT}" where)"
 ```
 
@@ -39,13 +39,13 @@ export PROJECT_ROOT="$(python "${SCRIPTS_DIR}/webnovel.py" --project-root "${WOR
 
 ## 引用加载策略
 
-按查询类型按需加载，先识别再加载。路径说明：`references/` 指 skill 私有 `skills/webnovel/query/references/`；`../../../references/` 指共享 references（相对 skill 根目录）。
+按查询类型按需加载，先识别再加载。路径说明：`references/` 指 skill 私有 `skills/webnovel-query/references/`；`../../references/` 指共享 references。
 
 | 查询类型 | Reference | 实际路径 |
 |---------|-----------|---------|
 | 数据流 / 优先级 | 数据流规范 | `${SKILL_ROOT}/references/system-data-flow.md` |
 | 伏笔分析 | 伏笔分析 | `${SKILL_ROOT}/references/advanced/foreshadowing.md` |
-| 节奏分析 | Strand 模式 | `${SKILL_ROOT}/../../../references/shared/strand-weave-pattern.md` |
+| 节奏分析 | Strand 模式 | `${SKILL_ROOT}/../../references/shared/strand-weave-pattern.md` |
 | 格式查询 | 标签规范 | `${SKILL_ROOT}/references/tag-specification.md` |
 
 不得同时加载两个以上 reference，除非用户请求明确跨多类型。

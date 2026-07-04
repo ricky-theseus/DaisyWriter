@@ -2,7 +2,6 @@
 name: webnovel-dashboard
 description: 启动只读小说管理面板，查看项目状态、实体图谱与章节内容。
 allowed-tools: Bash Read
-argument-hint: "[--port <number>]"
 ---
 
 # Webnovel Dashboard

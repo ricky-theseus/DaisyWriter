@@ -12,7 +12,7 @@ argument-hint: ""
 ## 流程
 
 ### Step 0：抓取 CSDN 主页
-- URL: `https://blog.csdn.net/YourUsername`（替换为你的 CSDN 用户名）
+- URL: `https://blog.csdn.net/Rick_Theseusr`
 - 提取每篇文章的标题 + 链接
 
 ### Step 1：对比本地记录

@@ -4,7 +4,11 @@ const sharp = require('sharp');
 
 const DASHSCOPE_ENDPOINT = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation';
 const WAN_MODEL = 'wan2.6-t2i';
-const GEN_SIZE = '768*1024';
+
+// 网文封面（默认）：768*1024 → 600×800 竖版
+// 知乎短篇封面（--zhihu）：1500*844 → 750×422 横版
+const MODE_NOVEL = { gen: '768*1024', outW: 600, outH: 800 };
+const MODE_ZHIHU = { gen: '1500*844', outW: 750, outH: 422 };
 
 function loadApiKey() {
   const paths = [
@@ -62,7 +66,7 @@ function readMeta(projPath) {
   return meta;
 }
 
-async function callWan(prompt) {
+async function callWan(prompt, genSize) {
   const apiKey = loadApiKey();
   const resp = await fetch(DASHSCOPE_ENDPOINT, {
     method: 'POST',
@@ -70,7 +74,7 @@ async function callWan(prompt) {
     body: JSON.stringify({
       model: WAN_MODEL,
       input: { messages: [{ role: 'user', content: [{ text: prompt }] }] },
-      parameters: { prompt_extend: true, watermark: false, n: 1, size: GEN_SIZE },
+      parameters: { prompt_extend: true, watermark: false, n: 1, size: genSize },
     }),
   });
   if (!resp.ok) {
@@ -92,10 +96,12 @@ function slugify(s) {
 }
 
 function parseArgs() {
-  const args = { path: null, singleTitle: null };
+  const args = { path: null, singleTitle: null, zhihu: false };
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--title') {
       args.singleTitle = process.argv[++i];
+    } else if (process.argv[i] === '--zhihu') {
+      args.zhihu = true;
     } else if (!args.path) {
       args.path = process.argv[i];
     }
@@ -103,12 +109,16 @@ function parseArgs() {
   return args;
 }
 
-async function makeCover(title, meta, candidateStr, absPath) {
+async function makeCover(title, meta, candidateStr, absPath, mode) {
   const outDir = path.join(absPath, '作品信息');
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
+  const isZhihu = mode === MODE_ZHIHU;
+  const label = isZhihu ? '知乎短篇' : '网文';
+  const sizeLabel = `${mode.outW}×${mode.outH}`;
+
   const byline = `${meta.author}　〇　著`;
-  const prompt = `请为我的小说生成一个网文封面。
+  const prompt = `请为我的小说生成一个${label}封面。
 小说标题：《${title}》
 作者：${meta.author}
 ${meta.summary ? '故事简介：' + meta.summary + '\n' : ''}
@@ -119,11 +129,11 @@ ${candidateStr}
 1. 封面中清晰显示作品名称和作者笔名，笔名格式为"${byline}"
 2. 画面元素符合小说题材和风格
 3. 封面设计美观有艺术感
-4. 尺寸 600×800 像素，格式 jpg 或 png，文件大小不超过 5MB`;
+4. 尺寸 ${sizeLabel} 像素，格式 jpg 或 png，文件大小不超过 5MB`;
 
-  console.log(`生成《${title}》封面...`);
-  const raw = await callWan(prompt);
-  const resized = await sharp(raw).resize(600, 800, { fit: 'cover', position: 'centre' }).png().toBuffer();
+  console.log(`生成《${title}》封面 (${sizeLabel})...`);
+  const raw = await callWan(prompt, mode.gen);
+  const resized = await sharp(raw).resize(mode.outW, mode.outH, { fit: 'cover', position: 'centre' }).png().toBuffer();
 
   const isPrimary = title === meta.title;
   const filename = isPrimary ? 'cover.png' : `cover-${slugify(title)}.png`;
@@ -134,7 +144,9 @@ ${candidateStr}
 
 async function main() {
   const args = parseArgs();
-  if (!args.path) { console.error('用法: node generate_cover.js <项目路径> [--title "书名"]'); process.exit(1); }
+  const mode = args.zhihu ? MODE_ZHIHU : MODE_NOVEL;
+  const modeLabel = args.zhihu ? '知乎短篇' : '网文';
+  if (!args.path) { console.error(`用法: node generate_cover.js <项目路径> [--title "书名"] [--zhihu]`); process.exit(1); }
   const absPath = path.resolve(args.path);
   if (!fs.existsSync(absPath)) { console.error(`项目不存在: ${absPath}`); process.exit(1); }
   if (!loadApiKey()) { console.error('未配置 DASHSCOPE_API_KEY'); process.exit(1); }
@@ -143,17 +155,17 @@ async function main() {
   const candidates = meta.candidates;
   const candidateStr = candidates.map((c, i) => `${i + 1}. 《${c}》`).join('\n');
 
+  console.log(`[${modeLabel}] ${absPath}`);
+
   if (args.singleTitle) {
-    // 单独生成一个书名
-    await makeCover(args.singleTitle, meta, candidateStr, absPath);
+    await makeCover(args.singleTitle, meta, candidateStr, absPath, mode);
   } else {
-    // 批量生成所有候选书名
     console.log(`候选书名 (${candidates.length}个):`);
     candidates.forEach(c => console.log(`  - ${c}`));
     for (const title of candidates) {
-      await makeCover(title, meta, candidateStr, absPath);
+      await makeCover(title, meta, candidateStr, absPath, mode);
     }
-    console.log(`\n完成: 共生成 ${candidates.length} 张封面`);
+    console.log(`\n完成: 共生成 ${candidates.length} 张 ${modeLabel} 封面`);
   }
 }
 
