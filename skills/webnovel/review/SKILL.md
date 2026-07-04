@@ -15,6 +15,86 @@ argument-hint: "[章号或范围，如 5 或 1-5]"
 
 **前置加载**：审查前先 `skill("webnovel-craft")` 加载通用工艺标准。审查维度（句长、句式、感官、情绪、五维度）的量化基准和阻断阈值由 webnovel-craft 定义，reviewer agent 专注于品味判断。
 
+## Review Mode 选择
+
+支持三种对抗式审查模式，与 story-review 兼容：
+
+| 模式 | 命令 | 说明 |
+|------|------|------|
+| **full** | `/webnovel-review full N` | 优先 spawn 4 个 Agent 并行审查（story-architect + character-designer + narrative-writer + consistency-checker） |
+| **lean** | `/webnovel-review lean N` | 优先 spawn story-architect + consistency-checker |
+| **solo** | `/webnovel-review solo N` | 当前会话执行基础审查，不 spawn |
+
+默认 `full`。Agent 缺失或 spawn 失败时自动降级 solo，报告中标注 fallback 原因。
+
+- `/webnovel-review N` 或 `/webnovel-review full N` → 优先 spawn 全部 4 个 Agent
+- `/webnovel-review lean N` → 优先 spawn story-architect + consistency-checker
+- `/webnovel-review solo N` → 当前会话执行基础审查
+
+### Phase 0：预检与降级
+
+1. **确定请求模式**：解析输入中的 `full`、`lean`、`solo`；未指定时目标模式为 `full`。
+2. **确认是否允许 spawn**：如果当前已经在子 Agent 内执行，不再递归 spawn，直接降级为 `solo`。
+3. **检查 Agent 部署状态**：
+   - 优先检查 `.claude/agents/`，其次 `.opencode/agents/`，再 `.codex/agents/`
+   - full 必需：story-architect、character-designer、narrative-writer、consistency-checker
+   - lean 必需：story-architect、consistency-checker
+   - 任一缺失或 malformed → 降级 `solo`
+4. **确定实际模式**：报告中同时列出 `Requested Mode` 与 `Effective Mode`。
+
+### 统一 Findings Schema
+
+所有模式输出问题时必须使用统一结构：
+
+```yaml
+- severity: S1 | S2 | S3 | S4
+  category: structure | character | prose | consistency | platform | factual | format
+  location: 文件路径:行号 或 章节/段落描述
+  evidence: "引用原文或具体证据"
+  issue: "问题描述"
+  fix: "可执行修改建议"
+```
+
+严重度：
+- **S1**：破坏主线、角色动机、世界规则或读者信任
+- **S2**：明显影响章节效果、留存、节奏、人物可信度
+- **S3**：局部质量问题，措辞、轻微格式、局部节奏
+- **S4**：建议项或风格微调，不阻塞发布
+
+### 平台 Rubric
+
+审查时必须根据目标平台加载对应 rubric。平台优先级：用户显式指定 > 项目文档 `目标平台` 字段 > 未识别则使用通用网文 rubric。
+
+| 平台 | 审查重点 |
+|------|---------|
+| 番茄 | 强开局、强冲突、高频爽点/情绪反馈、低理解门槛 |
+| 起点 | 设定自洽、升级路径、长线期待、世界观承载力 |
+| 知乎盐言 | 短篇钩子、反转密度、情绪兑现、信息差推进 |
+| 通用 | 核心卖点、冲突推进、情绪曲线、钩子与期待、角色动机、对话质量、设定一致性、文字自然度 |
+
+### full/lean 模式：并行 Agent 审查
+
+full 模式 spawn 4 个 Agent 并行审查，lean 模式 spawn 2 个。每个 Agent prompt 必须自包含项目路径、审查范围、文件路径、审查基准摘要和 Findings Schema。
+
+**Agent 1: story-architect**
+审查视角：主题对齐、大纲结构、钩子/反转质量、情绪节奏、伏笔密度、高原构建。
+
+**Agent 2: character-designer**（仅 full）
+审查视角：角色语言风格一致性、对话质量、人物弧线、关系推进、好感度匹配。
+
+**Agent 3: narrative-writer**（仅 full）
+审查视角：AI 味检测（7-Gate + 模式 8 解释腔）、情绪烈度、格式合规、节奏均匀度。
+
+**Agent 4: consistency-checker**
+审查视角：grep-first + 推理型一致性检测、事实矛盾、时间线自洽、伏笔状态。
+
+### 综合裁决
+
+1. 收集实际执行的 reviewer VERDICT 和 FINDINGS
+2. 合并去重：按 severity 排序（S1 > S2 > S3 > S4）
+3. 分歧呈现：如果 reviewer 间有冲突意见，明确呈现让用户裁决
+4. 输出综合审查报告，列出实际模式、fallback 原因、使用的 rubric
+
 ## 红线
 
 - 必须通过 `Agent` 工具调用 `reviewer`，禁止主流程伪造结论或口头总结代替 subagent 输出。
@@ -50,11 +130,11 @@ python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${PROJECT_ROOT}" \
 
 | Trigger | Reference |
 |---------|-----------|
-| always | `../../../references/shared/core-constraints.md` |
-| always | `../../../references/review-schema.md` |
-| 审查涉及爽点或钩子 | `../../../references/shared/cool-points-guide.md` |
-| 审查涉及多线交织 | `../../../references/shared/strand-weave-pattern.md` |
-| blocking issue 需用户裁决 (Step 8) | `../../../references/review/blocking-override-guidelines.md` |
+| always | `../../references/shared/core-constraints.md` |
+| always | `../../references/review-schema.md` |
+| 审查涉及爽点或钩子 | `../../references/shared/cool-points-guide.md` |
+| 审查涉及多线交织 | `../../references/shared/strand-weave-pattern.md` |
+| blocking issue 需用户裁决 (Step 8) | `../../references/review/blocking-override-guidelines.md` |
 
 ### Step 4：加载投影状态与待审正文
 

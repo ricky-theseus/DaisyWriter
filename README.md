@@ -3,7 +3,7 @@
     <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white">
     <img src="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white" alt="DaisyWriter">
   </picture>
-  <img src="https://img.shields.io/badge/30_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="30 Skills">
+  <img src="https://img.shields.io/badge/31_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="31 Skills">
 </p>
 
 <p align="center">
@@ -25,40 +25,71 @@
 
 <p align="center">
   <b>Turn your AI coding assistant into a full writing studio.</b><br>
-  <i>A skill collection for OpenCode, Claude Code, and beyond — covering web novels, short stories, tech blogs, and publishing automation.</i>
-</p>
-
-<p align="center">
-  <code>大纲 → 设定 → 写章 → 审查 → 发布</code> &nbsp;·&nbsp; <code>扫榜 → 去AI味 → 定稿</code>
+  <i>A skill collection for OpenCode, Claude Code, and Codex CLI — covering web novels, short stories, tech blogs, and publishing automation.</i>
 </p>
 
 ---
 
 ## 📋 Project Overview
 
-DaisyWriter is an open-source skill collection that transforms AI coding assistants into professional writing tools. It provides **30 composable skills** organized into five domains, each covering a complete content creation lifecycle.
+DaisyWriter is an open-source skill collection that transforms AI coding assistants into professional writing tools. It provides **31 composable skills** organized into three core writing modules plus supporting platform tools.
 
-| Domain | Skills | Pipeline |
+Each module follows a complete content creation lifecycle — from research and planning through drafting, review, and publishing.
+
+```mermaid
+flowchart LR
+    subgraph WebNovel["📚 Web Novel — 14 skills"]
+        direction LR
+        WN1["Scan"] --> WN2["Deconstruct"]
+        WN2 --> WN3["Init"]
+        WN3 --> WN4["Plan"]
+        WN4 --> WN5["Write"]
+        WN5 --> WN6["Review"]
+        WN6 --> WN7["Deslop"]
+        WN7 --> WN8["Publish"]
+    end
+
+    subgraph ShortStory["📝 Short Story — 5 skills"]
+        direction LR
+        SS1["Init"] --> SS2["Write"]
+        SS2 --> SS3["Review"]
+    end
+
+    subgraph TechBlog["💻 Tech Blog — 5 skills"]
+        direction LR
+        TB1["Deconstruct"] --> TB2["Write"]
+        TB2 --> TB3["Batch"]
+        TB3 --> TB4["Upload"]
+    end
+
+    subgraph Platform["🔧 Platform Tools — 7 skills"]
+        direction LR
+        PT1["Cover Maker"] --- PT2["WeChat"]
+        PT2 --- PT3["Xiaohongshu"]
+        PT3 --- PT4["Fanqie Publish"]
+    end
+```
+
+| Module | Skills | Pipeline |
 |--------|:------:|----------|
-| 📚 **Web Novel** | 14 | Deconstruct → Init → Plan → Write → Batch → Review → Scan → Deslop → Publish |
-| 📝 **Short Story** | 5 | Init → Write → Review → Craft → Deconstruct |
-| 💻 **Tech Blog** | 5 | Deconstruct → Write → Batch → CSDN Sync → CSDN Upload |
-| 🤖 **Publishing** | 1 | Fanqie Novel browser-automated publishing |
-| 🔧 **Platform Tools** | 5 | Cover generator, WeChat writer, Xiaohongshu posts |
+| 📚 **Web Novel** | 14 | `Scan → Deconstruct → Init → Plan → Write → Review → Deslop → Publish` |
+| 📝 **Short Story** | 5 | `Init → Write → Review → Final` |
+| 💻 **Tech Blog** | 5 | `Deconstruct → Write → Batch → CSDN Upload` |
+| 🔧 **Platform Tools** | 7 | Cover generator, WeChat, Xiaohongshu, Fanqie publishing |
 
 ### Project Structure
 
 ```
 DaisyWriter/
-├── skills/                          # 30 skills across 5 domains
+├── skills/                          # 31 skills across 5 domains
 │   ├── webnovel/                    #   14 skills
 │   │   ├── deconstruct/ init/ plan/ write/ batch/
 │   │   ├── craft/ review/ review-settings/
-│   │   ├── scan/ deslop/            # ← New: scouting + de-AI
+│   │   ├── scan/ deslop/
 │   │   └── query/ learn/ doctor/ dashboard/
 │   ├── shortstory/                  #    5 skills
 │   ├── tech/                        #    5 skills
-│   ├── fanqie/                      #    1 skill + Node.js scripts
+│   ├── fanqie/                      #    1 skill + Node.js/Python scripts
 │   ├── cover-maker/                 #    1 skill
 │   ├── wechat-article-writer/       #    1 skill
 │   └── xiaohongshu-*/               #    2 skills
@@ -76,12 +107,45 @@ DaisyWriter/
 
 ### 📚 Web Novel — 14 skills
 
-Full lifecycle from market research to polished chapters:
+Full lifecycle from market research to polished chapters, designed for long-form fiction (Qidian, Fanqie, Jinjiang, etc.).
 
-```
-Market Scan ──→ Deconstruct ──→ Init ──→ Plan ──→ Write ──→ Review ──→ Deslop ──→ Publish
-                      ↑                        ↑           ↑
-                 (reference)              (batch 1-30)  (blind, settings)
+```mermaid
+flowchart TD
+    subgraph Research["Market Research"]
+        SCAN["/webnovel-scan"] -->|"Bestseller analysis across platforms"| DECON["/webnovel-deconstruct"]
+    end
+
+    subgraph Setup["Project Setup"]
+        DECON -->|"Emotion curve + pacing stats"| INIT["/webnovel-init"]
+        INIT -->|"Sufficiency gates"| PLAN["/webnovel-plan"]
+        PLAN -->|"Volume beat sheet + CBN/CPN/CEN"| WRITE
+    end
+
+    subgraph Production["Writing"]
+        WRITE["/webnovel-write"] -->|"Quality gates"| BATCH["/webnovel-batch"]
+        BATCH -->|"Checkpoint resume"| CRAFT["/webnovel-craft"]
+        CRAFT -->|"Quantitative prose scanner"| OUT["Chapter Output"]
+    end
+
+    subgraph Quality["Quality Assurance"]
+        OUT --> REVIEW1["/webnovel-review"]
+        OUT --> REVIEW2["/webnovel-review-settings"]
+        OUT --> DSLOP["/webnovel-deslop"]
+        REVIEW1 -->|"Blind 3-question gate"| DSLOP
+        REVIEW2 -->|"Setting consistency"| DSLOP
+        DSLOP -->|"7-Gate de-AI"| FINAL["Polished Chapter"]
+    end
+
+    subgraph Auxiliary["Auxiliary"]
+        QUERY["/webnovel-query"] -->|"Character / foreshadowing lookup"| LEARN["/webnovel-learn"]
+        DOCTOR["/webnovel-doctor"] -->|"Project health check"| DASH["/webnovel-dashboard"]
+    end
+
+    style SCAN fill:#4a6fa5,color:#fff
+    style INIT fill:#4a6fa5,color:#fff
+    style WRITE fill:#2d7d46,color:#fff
+    style DSLOP fill:#8b5cf6,color:#fff
+    style FINAL fill:#e67e22,color:#fff
 ```
 
 | # | Command | Purpose | Key Feature |
@@ -101,27 +165,78 @@ Market Scan ──→ Deconstruct ──→ Init ──→ Plan ──→ Write 
 | 13 | `/webnovel-doctor` | Health diagnostic | Read-only, no side effects |
 | 14 | `/webnovel-dashboard` | Launch web UI | Entity graph + chapter viewer |
 
+**How it works:** Start with `/webnovel-scan` to discover trending genres, then `/webnovel-deconstruct` to extract structural patterns. `/webnovel-init` creates a project with sufficiency gates, and `/webnovel-plan` produces a full volume beat sheet. Write chapters with `/webnovel-write` or batch-write with `/webnovel-batch` (checkpoint resume protects against crashes). The prose quality enforcer (`/webnovel-craft`) runs automatically. Review is blind (`/webnovel-review`), settings are checked independently (`/webnovel-review-settings`), and `/webnovel-deslop` strips AI writing patterns with a 7-gate detection system.
+
+---
+
 ### 📝 Short Story — 5 skills
 
-State-machine-driven writing for Zhihu Yanxuan and medium-length fiction:
+State-machine-driven writing for Zhihu Yanxuan and medium-length fiction. Each skill is a state gate that validates before proceeding.
 
-```
-shortstory-init ──→ shortstory-write ──→ shortstory-review ──→ final
-      ↑                    ↑                      ↑
-  (blind review)    (word-count gate)      (stage-aware)
+```mermaid
+flowchart TD
+    INIT["/shortstory-init"]
+    WRITE["/shortstory-write"]
+    REVIEW["/shortstory-review"]
+    CRAFT["/shortstory-craft"]
+    DECON["/shortstory-deconstruct"]
+
+    INIT -->|"Initialize + blind review gate"| WRITE
+    WRITE -->|"validate_chapter.py word-count gate"| REVIEW
+    REVIEW -->|"Stage-aware (single / full)"| FINAL["Final Draft"]
+
+    CRAFT -.->|"Auto-loaded quality constraints"| WRITE
+    CRAFT -.-> REVIEW
+
+    DECON -.->|"Hook / suspense / pacing patterns"| INIT
+
+    subgraph Gates["Quality Gates"]
+        G1["Sufficiency Gate"] --> G2["Word Count Gate"]
+        G2 --> G3["Blind Review Gate"]
+    end
+
+    style INIT fill:#4a6fa5,color:#fff
+    style WRITE fill:#2d7d46,color:#fff
+    style REVIEW fill:#8b5cf6,color:#fff
+    style FINAL fill:#e67e22,color:#fff
 ```
 
-| # | Command | Purpose |
-|---|---------|---------|
-| 1 | `/shortstory-init <count> <genre>` | Initialize projects + blind review loop |
-| 2 | `/shortstory-write <path>` | Rolling write with validate_chapter.py gate |
-| 3 | `/shortstory-review <path>` | Stage-aware blind review (single / full) |
-| 4 | `/shortstory-craft` | Quality constraints (loaded automatically) |
-| 5 | `/shortstory-deconstruct <ref>` | Extract hook/suspense/pacing patterns |
+| # | Command | Purpose | Gate |
+|---|---------|---------|------|
+| 1 | `/shortstory-init <count> <genre>` | Initialize projects + blind review loop | Sufficiency |
+| 2 | `/shortstory-write <path>` | Rolling write with validate_chapter.py | Word count |
+| 3 | `/shortstory-review <path>` | Stage-aware blind review (single / full) | Blind review |
+| 4 | `/shortstory-craft` | Quality constraints (loaded automatically) | Quantitative |
+| 5 | `/shortstory-deconstruct <ref>` | Extract hook/suspense/pacing patterns | Reference |
+
+**How it works:** The short story module uses a strict state machine. `/shortstory-init` creates a project with a blind self-review loop that forces you to validate the premise before writing. `/shortstory-write` enforces word count gates via `validate_chapter.py`. `/shortstory-review` runs stage-aware blind review (single chapter or full story). `/shortstory-craft` loads automatically for quantitative quality constraints, and `/shortstory-deconstruct` extracts hook/suspense/pacing patterns from reference works.
+
+---
 
 ### 💻 Tech Blog — 5 skills
 
-Structured technical writing with CSDN integration:
+Structured technical writing with CSDN integration. From deconstructing reference articles to automated publishing.
+
+```mermaid
+flowchart TD
+    DECON["/tech-deconstruct"]
+    WRITE["/tech-write"]
+    BATCH["/tech-batch"]
+    UPLOAD["/csdn-upload"]
+    SYNC["/sync-csdn"]
+
+    DECON -->|"Analyze reference structure"| WRITE
+    WRITE -->|"Problem → Solution → Code → Verify → Summary"| BATCH
+    BATCH -->|"Inner review loop"| UPLOAD
+    UPLOAD -->|"Browser automation"| CSDN["CSDN Published"]
+    CSDN --> SYNC
+    SYNC -->|"Pull published → local"| LOCAL["Local Archive"]
+
+    style DECON fill:#4a6fa5,color:#fff
+    style WRITE fill:#2d7d46,color:#fff
+    style UPLOAD fill:#8b5cf6,color:#fff
+    style CSDN fill:#e67e22,color:#fff
+```
 
 | # | Command | Purpose |
 |---|---------|---------|
@@ -131,7 +246,13 @@ Structured technical writing with CSDN integration:
 | 4 | `/csdn-upload [--dry-run\|--sync]` | Upload drafts to CSDN via browser automation |
 | 5 | `/sync-csdn` | Sync published articles to local repo |
 
-### 🤖 Publishing — 1 skill
+**How it works:** Start with `/tech-deconstruct` to analyze reference articles for structural patterns. `/tech-write` follows a **Problem → Solution → Code → Verify → Summary** structure. `/tech-batch` enables mass production with an inner review loop. `/csdn-upload` uses Playwright browser automation to upload drafts to CSDN (supports dry-run and sync modes). `/sync-csdn` pulls published articles back to the local repository.
+
+---
+
+### 🤖 Publishing — Fanqie Novel
+
+Browser-automated chapter publishing for Fanqie Novel (番茄小说).
 
 | Command | Purpose |
 |---------|---------|
@@ -140,7 +261,7 @@ Structured technical writing with CSDN integration:
 | `/fanqie-publish --fill-only` | Save as draft (safe mode) |
 | `/fanqie-publish --confirm-publish` | Publish immediately or schedule |
 
-### 🔧 Platform Tools — 5 skills
+### 🔧 Platform Tools — 7 skills
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
@@ -155,7 +276,7 @@ Structured technical writing with CSDN integration:
 
 ### Prerequisites
 
-- [OpenCode](https://opencode.ai) ≥ 0.6 (or Claude Code)
+- [OpenCode](https://opencode.ai) ≥ 0.6 (or Claude Code / Codex CLI)
 - Python ≥ 3.8, Node.js ≥ 18
 - Playwright (for browser automation, optional)
 
@@ -186,6 +307,18 @@ Then in your AI assistant:
 skill("skills/webnovel/init")
 # Write chapter 1
 skill("skills/webnovel/write")
+```
+
+```mermaid
+flowchart LR
+    A["Clone Repo"] --> B["pip install playwright"]
+    A --> C["cd skills/fanqie && npm install"]
+    A --> D["cd skills/cover-maker && npm install"]
+    B --> E["Configure opencode.json"]
+    C --> E
+    D --> E
+    E --> F["Load skill in assistant"]
+    F --> G["Start writing"]
 ```
 
 ---

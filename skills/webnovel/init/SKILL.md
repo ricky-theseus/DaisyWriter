@@ -21,7 +21,7 @@ argument-hint: "[书名或灵感（可选）]"
 
 ## 引用加载策略
 
-路径说明：`references/` 指 `skills/webnovel/init/references/`；`../../../references/` 指共享 references（相对 skill 根目录）。详细采集字段见 `references/init-collection-schema.md`（按需区段读，逐项收集，必填项以「充分性闸门」为准）。
+路径说明：`references/` 指 `skills/webnovel-init/references/`；`../../references/` 指共享 references。详细采集字段见 `references/init-collection-schema.md`（按需区段读，逐项收集，必填项以「充分性闸门」为准）。
 
 | Step | Trigger | Reference |
 |------|---------|-----------|
