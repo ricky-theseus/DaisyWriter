@@ -1,5 +1,4 @@
-﻿Professional README rewrite following quality-standard guidelines.
-
-Changes:
-- README.md: complete rewrite with proper hero section, badge matrix, pipeline explanations, 30-skill architecture diagram, no personal information
-- skills/cover-maker/SKILL.md: replaced 诡异熔炉 example with generic placeholder, removed author name
+﻿- 修正技能总数: 31 → 29（实际清点 skills/ 下 SKILL.md 确认为 29 个）
+- 修正 Platform Tools: 7 → 5
+- 所有 mermaid 流程图改为脑图（mindmap）格式: 概览、网文、短篇、技术、安装
+- 保留详细的功能表格和文字流程说明
