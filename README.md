@@ -3,7 +3,7 @@
     <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white">
     <img src="https://img.shields.io/badge/DaisyWriter-v1.1.0-8B5CF6?style=for-the-badge&logo=openai&logoColor=white" alt="DaisyWriter">
   </picture>
-  <img src="https://img.shields.io/badge/29_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="29 Skills">
+  <img src="https://img.shields.io/badge/33_Skills-6C47FF?style=for-the-badge&logo=readme&logoColor=white" alt="33 Skills">
 </p>
 
 <p align="center">
@@ -11,12 +11,12 @@
   <a href="https://github.com/anomalyco/opencode"><img src="https://img.shields.io/badge/OpenCode-0.6+-blue?style=flat-square" alt="OpenCode"></a>
   <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/Claude_Code-Ready-black?style=flat-square&logo=anthropic" alt="Claude Code"></a>
   <a href="https://github.com/openai/codex"><img src="https://img.shields.io/badge/Codex_CLI-WIP-gray?style=flat-square" alt="Codex CLI"></a>
-  <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-8B5CF6?style=flat-square" alt="Quick Start"></a>
+  <a href="#-快速开始"><img src="https://img.shields.io/badge/快速开始-8B5CF6?style=flat-square" alt="快速开始"></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python_3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node_18%2B-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"></a>
   <br>
-  <a href="#-project-overview">English</a> ·
-  <a href="./docs/README.md">中文</a>
+  <a href="#-项目概览">中文</a> ·
+  <a href="./docs/README.en.md">English</a>
 </p>
 
 ---
@@ -24,17 +24,17 @@
 <h1 align="center">✍️ DaisyWriter</h1>
 
 <p align="center">
-  <b>Turn your AI coding assistant into a full writing studio.</b><br>
-  <i>A skill collection for OpenCode, Claude Code, and Codex CLI — covering web novels, short stories, tech blogs, and publishing automation.</i>
+  <b>把 AI 编程助手变成你的写作工作室。</b><br>
+  <i>面向 OpenCode、Claude Code、Codex CLI 的技能集合 —— 覆盖网文、短篇、技术博客、自动化发布。</i>
 </p>
 
 ---
 
-## 📋 Project Overview
+## 📋 项目概览
 
-DaisyWriter is an open-source skill collection that transforms AI coding assistants into professional writing tools. It provides **29 composable skills** organized into three core writing modules plus supporting platform tools.
+DaisyWriter 是一个开源技能集合，能把 AI 编程助手变成专业的写作工具。提供 **33 个可组合的技能**，分为三大写作模块和配套平台工具。
 
-Each module follows a complete content creation lifecycle — from research and planning through drafting, review, and publishing.
+每个模块覆盖完整的内容创作生命周期 —— 从调研规划到草稿、审查、发布。
 
 ```mermaid
 mindmap
@@ -54,12 +54,16 @@ mindmap
         Learn
         Doctor
         Dashboard
-    📝 Short Story [5]
+    📝 Short Story [9]
+      Scan
+      Deconstruct
       Init
       Write
+      Batch
       Review
+      Deslop
       Craft
-      Deconstruct
+      Craft-mgmt
     💻 Tech Blog [5]
       Deconstruct
       Write
@@ -76,22 +80,24 @@ mindmap
 
 | Module | Skills | Pipeline |
 |--------|:------:|----------|
-| 📚 **Web Novel** | 14 | `Scan → Deconstruct → Init → Plan → Write → Review → Deslop → Publish` |
-| 📝 **Short Story** | 5 | `Init → Write → Review → Final` |
-| 💻 **Tech Blog** | 5 | `Deconstruct → Write → Batch → CSDN Upload` |
-| 🔧 **Platform Tools** | 5 | Cover generator, WeChat, Xiaohongshu, Fanqie publishing |
+| 📚 **网文** | 14 | `Scan → Deconstruct → Init → Plan → Write → Review → Deslop → Publish` |
+| 📝 **短篇** | 9 | `Scan → Deconstruct → Init → Write → Batch → Review → Deslop → Craft` |
+| 💻 **技术博客** | 5 | `Deconstruct → Write → Batch → CSDN Upload` |
+| 🔧 **平台工具** | 5 | 封面生成、微信、小红书、番茄发布 |
 
-### Project Structure
+### 项目结构
 
 ```
 DaisyWriter/
-├── skills/                          # 29 skills across 4 domains + tools
+├── skills/                          # 33 个技能，4 个域 + 工具
 │   ├── webnovel/                    #   14 skills
 │   │   ├── deconstruct/ init/ plan/ write/ batch/
 │   │   ├── craft/ review/ review-settings/
 │   │   ├── scan/ deslop/
 │   │   └── query/ learn/ doctor/ dashboard/
-│   ├── shortstory/                  #    5 skills
+│   ├── shortstory/                  #    9 skills
+│   │   ├── scan/ deconstruct/ init/ write/ batch/
+│   │   ├── review/ deslop/ craft/ craft-mgmt/
 │   ├── tech/                        #    5 skills
 │   ├── fanqie/                      #    1 skill + Node.js/Python scripts
 │   ├── cover-maker/                 #    1 skill
@@ -107,11 +113,11 @@ DaisyWriter/
 
 ---
 
-## 🎯 Skills by Domain
+## 🎯 技能分域
 
-### 📚 Web Novel — 14 skills
+### 📚 网文 — 14 个技能
 
-Full lifecycle from market research to polished chapters, designed for long-form fiction (Qidian, Fanqie, Jinjiang, etc.).
+从市场调研到精修章节的完整生命周期，专注长篇小说（起点、番茄、晋江等平台）。
 
 ```mermaid
 mindmap
@@ -137,56 +143,64 @@ mindmap
       Dashboard -- entity graph UI
 ```
 
-| # | Command | Purpose | Key Feature |
-|---|---------|---------|-------------|
-| 1 | `/webnovel-scan long\|short` | **Scan** bestseller charts across platforms | Qidian, Fanqie, Jinjiang, Qimao, etc. |
-| 2 | `/webnovel-deconstruct <title>` | Analyze a reference novel | Emotion curve + pacing stats |
-| 3 | `/webnovel-init <title>` | Interactive project creation | Sufficiency gates prevent half-baked projects |
-| 4 | `/webnovel-plan <volume>` | Volume beat sheet + chapter outlines | CBN/CPN/CEN per chapter |
-| 5 | `/webnovel-write <chapter>` | Single chapter with quality gates | 3 modes: default / --fast / --minimal |
-| 6 | `/webnovel-batch <start> <end>` | Batch write with checkpoint resume | Crash recovery |
-| 7 | `/webnovel-craft` | Prose quality constraints (loaded automatically) | Quantitative scanner |
-| 8 | `/webnovel-review <chapter>` | Blind chapter review | 3-question gate |
-| 9 | `/webnovel-review-settings` | Setting consistency audit | 4 severity levels |
-| 10 | `/webnovel-deslop <file>` | **Remove AI writing style** | 7-Gate detection + graded removal |
-| 11 | `/webnovel-query <keyword>` | Query project state | Character, foreshadowing, power system |
-| 12 | `/webnovel-learn <pattern>` | Save writing pattern to memory | Auto-deduplication |
-| 13 | `/webnovel-doctor` | Health diagnostic | Read-only, no side effects |
-| 14 | `/webnovel-dashboard` | Launch web UI | Entity graph + chapter viewer |
+| # | 命令 | 用途 | 核心特性 |
+|---|------|------|----------|
+| 1 | `/webnovel-scan long\|short` | **扫榜**：多平台畅销榜分析 | 起点、番茄、晋江、七猫等 |
+| 2 | `/webnovel-deconstruct <书名>` | 拆解参考作品 | 情绪曲线 + 节奏统计 |
+| 3 | `/webnovel-init <书名>` | 交互式项目创建 | 充分性门防止半成品项目 |
+| 4 | `/webnovel-plan <卷>` | 卷大纲 + 章节细纲 | 每章 CBN/CPN/CEN |
+| 5 | `/webnovel-write <章>` | 单章写作 + 质量门 | 3 模式：default / --fast / --minimal |
+| 6 | `/webnovel-batch <起始> <结束>` | 批量写 + 检查点恢复 | 崩溃恢复 |
+| 7 | `/webnovel-craft` | 文本质检约束（自动加载） | 量化扫描器 |
+| 8 | `/webnovel-review <章>` | 盲审章节 | 3 问门 |
+| 9 | `/webnovel-review-settings` | 设定一致性审计 | 4 级严重程度 |
+| 10 | `/webnovel-deslop <文件>` | **去除 AI 写作痕迹** | 7 门检测 + 分级去除 |
+| 11 | `/webnovel-query <关键词>` | 查询项目状态 | 角色、伏笔、力量体系 |
+| 12 | `/webnovel-learn <模式>` | 写作模式存入记忆 | 自动去重 |
+| 13 | `/webnovel-doctor` | 健康诊断 | 只读，无副作用 |
+| 14 | `/webnovel-dashboard` | 启动 Web UI | 实体图 + 章节阅览器 |
 
-**How it works:** Start with `/webnovel-scan` to discover trending genres, then `/webnovel-deconstruct` to extract structural patterns. `/webnovel-init` creates a project with sufficiency gates, and `/webnovel-plan` produces a full volume beat sheet. Write chapters with `/webnovel-write` or batch-write with `/webnovel-batch` (checkpoint resume protects against crashes). The prose quality enforcer (`/webnovel-craft`) runs automatically. Review is blind (`/webnovel-review`), settings are checked independently (`/webnovel-review-settings`), and `/webnovel-deslop` strips AI writing patterns with a 7-gate detection system.
+**工作流程：** 从 `/webnovel-scan` 扫榜发现热门类型，`/webnovel-deconstruct` 提取结构模式。`/webnovel-init` 通过充分性门创建项目，`/webnovel-plan` 生成卷大纲。用 `/webnovel-write` 或 `/webnovel-batch` 写章（检查点恢复防崩溃）。质控技能 `/webnovel-craft` 自动运行。盲审 (`/webnovel-review`)、设定独立审查 (`/webnovel-review-settings`)、`/webnovel-deslop` 7 门去 AI 味。
 
 ---
 
-### 📝 Short Story — 5 skills
+### 📝 短篇 — 9 个技能
 
-State-machine-driven writing for Zhihu Yanxuan and medium-length fiction. Each skill is a state gate that validates before proceeding.
+状态机驱动的创作流程，覆盖知乎盐选、番茄短篇等平台。每个技能都是一个状态门，校验通过才能继续。
 
 ```mermaid
 mindmap
   ((Short Story))
+    Scan -- market trends
+    Deconstruct -- hook / suspense / pacing
     Init -- blind self-review loop
     Write -- validate_chapter.py gate
+    Batch -- scene-level progress management
     Review -- stage-aware blind
+    Deslop -- 8-dimension de-AI
     Craft -- auto-loaded constraints
-    Deconstruct -- hook / suspense / pacing
+    Craft-mgmt -- constraint dialog management
 ```
 
-| # | Command | Purpose | Gate |
-|---|---------|---------|------|
-| 1 | `/shortstory-init <count> <genre>` | Initialize projects + blind review loop | Sufficiency |
-| 2 | `/shortstory-write <path>` | Rolling write with validate_chapter.py | Word count |
-| 3 | `/shortstory-review <path>` | Stage-aware blind review (single / full) | Blind review |
-| 4 | `/shortstory-craft` | Quality constraints (loaded automatically) | Quantitative |
-| 5 | `/shortstory-deconstruct <ref>` | Extract hook/suspense/pacing patterns | Reference |
+| # | 命令 | 用途 | 关卡 |
+|---|------|------|------|
+| 1 | `/shortstory-scan <平台>` | 扫榜：分析盐选/番茄等平台趋势 | 采集 |
+| 2 | `/shortstory-deconstruct <ref>` | 拆解：提取钩子/悬念/节奏模式 | 参考 |
+| 3 | `/shortstory-init <数量> <类型>` | 初始化项目 + 盲审循环 | 充分性 |
+| 4 | `/shortstory-write <路径>` | 滚动写作 + validate_chapter.py | 字数 |
+| 5 | `/shortstory-batch <项目> [起始] [结束]` | 场景级批写 + 进度管理 | 批量 |
+| 6 | `/shortstory-review <路径>` | 阶段感知盲审（单篇/全篇） | 盲审 |
+| 7 | `/shortstory-deslop <文件>` | 8 维去 AI 味系统 | 去AI |
+| 8 | `/shortstory-craft` | 工艺约束（自动加载） | 量化 |
+| 9 | `/shortstory-craft-mgmt` | 工艺约束对话式管理 | 配置 |
 
-**How it works:** The short story module uses a strict state machine. `/shortstory-init` creates a project with a blind self-review loop that forces you to validate the premise before writing. `/shortstory-write` enforces word count gates via `validate_chapter.py`. `/shortstory-review` runs stage-aware blind review (single chapter or full story). `/shortstory-craft` loads automatically for quantitative quality constraints, and `/shortstory-deconstruct` extracts hook/suspense/pacing patterns from reference works.
+**工作原理：** 从 `/shortstory-scan` 扫榜发现趋势，`/shortstory-deconstruct` 拆解参考作品。`/shortstory-init` 带盲审循环初始化，`/shortstory-write` 单章滚动写（字数门校验）。`/shortstory-batch` 场景级批量写（写→审严格串行）。`/shortstory-review` 阶段感知盲审，`/shortstory-deslop` 8 维去 AI 味。`/shortstory-craft` 自动加载量化约束，`/shortstory-craft-mgmt` 对话管理工艺规则。
 
 ---
 
-### 💻 Tech Blog — 5 skills
+### 💻 技术博客 — 5 个技能
 
-Structured technical writing with CSDN integration. From deconstructing reference articles to automated publishing.
+结构化技术写作 + CSDN 集成。从拆解参考文章到自动化发布。
 
 ```mermaid
 mindmap
@@ -198,142 +212,142 @@ mindmap
     sync-csdn -- published articles to local
 ```
 
-| # | Command | Purpose |
-|---|---------|---------|
-| 1 | `/tech-deconstruct <ref>` | Analyze reference article structure |
-| 2 | `/tech-write <title>` | Problem → Solution → Code → Verify → Summary |
-| 3 | `/tech-batch <dir>` | Batch production with inner review loop |
-| 4 | `/csdn-upload [--dry-run\|--sync]` | Upload drafts to CSDN via browser automation |
-| 5 | `/sync-csdn` | Sync published articles to local repo |
+| # | 命令 | 用途 |
+|---|------|------|
+| 1 | `/tech-deconstruct <ref>` | 分析参考文章结构 |
+| 2 | `/tech-write <标题>` | 问题 → 方案 → 代码 → 验证 → 总结 |
+| 3 | `/tech-batch <目录>` | 批量生产 + 内部审查循环 |
+| 4 | `/csdn-upload [--dry-run\|--sync]` | 通过浏览器自动化上传草稿到 CSDN |
+| 5 | `/sync-csdn` | 已发布文章同步回本地仓库 |
 
-**How it works:** Start with `/tech-deconstruct` to analyze reference articles for structural patterns. `/tech-write` follows a **Problem → Solution → Code → Verify → Summary** structure. `/tech-batch` enables mass production with an inner review loop. `/csdn-upload` uses Playwright browser automation to upload drafts to CSDN (supports dry-run and sync modes). `/sync-csdn` pulls published articles back to the local repository.
-
----
-
-### 🤖 Publishing — Fanqie Novel
-
-Browser-automated chapter publishing for Fanqie Novel (番茄小说).
-
-| Command | Purpose |
-|---------|---------|
-| `/fanqie-publish --preview` | Preview parsed chapters |
-| `/fanqie-publish --login` | QR code login |
-| `/fanqie-publish --fill-only` | Save as draft (safe mode) |
-| `/fanqie-publish --confirm-publish` | Publish immediately or schedule |
-
-### 🔧 Platform Tools — 5 skills
-
-| Skill | Command | Purpose |
-|-------|---------|---------|
-| **cover-maker** | `node skills/cover-maker/generate_cover.js <path>` | AI generates 600×800 book covers for all candidate titles |
-| **wechat-article-writer** | `/wechat-article-writer` | Write WeChat official account articles |
-| **xiaohongshu-technical-post-copy** | `/xiaohongshu-technical-post-copy` | Xiaohongshu tech copywriting |
-| **xiaohongshu-minimal-technical-infographic** | `/xiaohongshu-minimal-technical-infographic` | Minimalist tech infographics for Xiaohongshu |
+**工作流程：** 从 `/tech-deconstruct` 分析参考文章结构。`/tech-write` 遵循**问题→方案→代码→验证→总结**结构。`/tech-batch` 批量生产带内部审查循环。`/csdn-upload` 使用 Playwright 浏览器自动化上传草稿到 CSDN（支持 dry-run 和 sync 模式）。`/sync-csdn` 将已发布文章拉回本地仓库。
 
 ---
 
-## 🚀 Quick Start
+### 🤖 发布 — 番茄小说
 
-### Prerequisites
+浏览器自动化发布章节到番茄小说平台。
 
-- [OpenCode](https://opencode.ai) ≥ 0.6 (or Claude Code / Codex CLI)
+| 命令 | 用途 |
+|------|------|
+| `/fanqie-publish --preview` | 预览解析章节 |
+| `/fanqie-publish --login` | 二维码登录 |
+| `/fanqie-publish --fill-only` | 保存草稿（安全模式） |
+| `/fanqie-publish --confirm-publish` | 立即发布或定时发布 |
+
+### 🔧 平台工具 — 5 个技能
+
+| 技能 | 命令 | 用途 |
+|-------|------|------|
+| **cover-maker** | `node skills/cover-maker/generate_cover.js <路径>` | AI 为所有候选书名生成 600×800 封面 |
+| **wechat-article-writer** | `/wechat-article-writer` | 公众号文章写作 |
+| **xiaohongshu-technical-post-copy** | `/xiaohongshu-technical-post-copy` | 小红书技术文案 |
+| **xiaohongshu-minimal-technical-infographic** | `/xiaohongshu-minimal-technical-infographic` | 小红书极简技术海报 |
+
+---
+
+## 🚀 快速开始
+
+### 前置要求
+
+- [OpenCode](https://opencode.ai) ≥ 0.6（或 Claude Code / Codex CLI）
 - Python ≥ 3.8, Node.js ≥ 18
-- Playwright (for browser automation, optional)
+- Playwright（浏览器自动化，可选）
 
-### Install
+### 安装
 
 ```bash
 git clone https://github.com/ricky-theseus/DaisyWriter.git
 cd DaisyWriter
 
-# Optional: Fanqie publishing
+# 可选：番茄小说发布
 cd skills/fanqie && npm install && npx playwright install chromium && cd ../..
 
-# Optional: Cover generation
+# 可选：封面生成
 cd skills/cover-maker && npm install && cd ../..
 ```
 
-### Use
+### 使用
 
-Add to `opencode.json`:
+添加到 `opencode.json`：
 ```json
 { "skills": ["path/to/DaisyWriter"] }
 ```
 
-Then in your AI assistant:
+然后在 AI 助手中：
 
 ```python
-# Start a web novel from scratch
+# 从零开始写网文
 skill("skills/webnovel/init")
-# Write chapter 1
+# 写第一章
 skill("skills/webnovel/write")
 ```
 
 ```mermaid
 mindmap
-  ((Install))
-    Clone Repo
+  ((安装))
+    克隆仓库
     pip install playwright
     cd skills/fanqie && npm install
     cd skills/cover-maker && npm install
-    Configure opencode.json
-    Load skill in assistant
-    Start writing
+    配置 opencode.json
+    在助手中加载技能
+    开始写作
 ```
 
 ---
 
-## ✨ Design Philosophy
+## ✨ 设计理念
 
-| Principle | Description |
-|-----------|-------------|
-| **🧠 Sub-agent isolation** | Writer and reviewer are always separate AI agents with no shared context |
-| **🙈 Blind review** | Reviewer has zero memory of previous passes — genuine quality assessment |
-| **🚪 Multi-layer gates** | Sufficiency → Craft (quantitative) → Review (qualitative) → Pre-commit |
-| **📈 Incremental only** | Append never overwrite. Failure retries only the failed step |
-| **🧹 Clean output** | No version markers, revision notes, or AI metadata in final files |
-| **🔬 Data-driven craft** | Prose scanner enforces quantitative sentence-length/style constraints |
+| 原则 | 说明 |
+|------|------|
+| **🧠 子 agent 隔离** | 写手和审查者始终是独立的 AI agent，无共享上下文 |
+| **🙈 盲审** | 审查者对前一轮零记忆——真正的质量评估 |
+| **🚪 多层门** | 充分性 → 工艺（量化）→ 审查（定性）→ 预提交 |
+| **📈 仅增量** | 追加从不覆盖。失败只重试失败的步骤 |
+| **🧹 干净输出** | 最终文件无版本标记、修订说明或 AI 元数据 |
+| **🔬 数据驱动工艺** | 散文扫描器强制量化句长/风格约束 |
 
 ---
 
-## 🧩 Platform Support
+## 🧩 平台支持
 
-| Platform | Status | Entry Point |
-|----------|--------|-------------|
+| 平台 | 状态 | 入口 |
+|------|------|------|
 | [OpenCode](https://opencode.ai) | ✅ Native | [`SKILL.md`](./SKILL.md) |
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ Ready | [`adapters/claude-code/`](./adapters/claude-code/) |
 | [Codex CLI](https://github.com/openai/codex) | 🚧 WIP | [`adapters/codex/`](./adapters/codex/) |
 
 ---
 
-## 🧭 Documentation
+## 🧭 文档
 
-| Guide | English | 中文 |
-|-------|---------|------|
-| Quick Start | [`docs/QUICKSTART.en.md`](./docs/QUICKSTART.en.md) | [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) |
-| Web Novel Tutorial | [`docs/guide-webnovel.en.md`](./docs/guide-webnovel.en.md) | [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) |
-| Short Story Guide | [`docs/guide-shortstory.en.md`](./docs/guide-shortstory.en.md) | [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) |
-| Tech Blog Guide | [`docs/guide-tech.en.md`](./docs/guide-tech.en.md) | [`docs/guide-tech.md`](./docs/guide-tech.md) |
-
----
-
-## 🤝 Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) and [Development Workflow](./docs/WORKFLOW.md).
-
-All changes go through branch → PR → CI → merge. No direct pushes to master.
+| 指南 | 中文 | English |
+|------|------|---------|
+| 快速开始 | [`docs/QUICKSTART.md`](./docs/QUICKSTART.md) | [`docs/QUICKSTART.en.md`](./docs/QUICKSTART.en.md) |
+| 网文教程 | [`docs/guide-webnovel.md`](./docs/guide-webnovel.md) | [`docs/guide-webnovel.en.md`](./docs/guide-webnovel.en.md) |
+| 短篇指南 | [`docs/guide-shortstory.md`](./docs/guide-shortstory.md) | [`docs/guide-shortstory.en.md`](./docs/guide-shortstory.en.md) |
+| 技术博客 | [`docs/guide-tech.md`](./docs/guide-tech.md) | [`docs/guide-tech.en.md`](./docs/guide-tech.en.md) |
 
 ---
 
-## 📄 License
+## 🤝 贡献指南
 
-**GNU General Public License v3.0** — see [LICENSE](./LICENSE).
+参见 [CONTRIBUTING.md](./CONTRIBUTING.md) 和 [开发工作流](./docs/WORKFLOW.md)。
 
-| Component | License | Source |
+所有改动走 分支 → PR → CI → 合并 流程。不允许直接推送 master。
+
+---
+
+## 📄 许可证
+
+**GNU General Public License v3.0** — 参见 [LICENSE](./LICENSE)。
+
+| 组件 | 许可证 | 来源 |
 |-----------|---------|--------|
-| `skills/webnovel/`, `skills/shortstory/`, `skills/tech/` | GPL v3 | Derived from [@lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) |
-| `skills/fanqie/` | MIT | Forked from [@amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) |
-| Everything else | GPL v3 | Original work |
+| `skills/webnovel/`, `skills/shortstory/`, `skills/tech/` | GPL v3 | 派生自 [@lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) |
+| `skills/fanqie/` | MIT | Fork 自 [@amm10090/fanqie-publisher-skill](https://github.com/amm10090/fanqie-publisher-skill) |
+| 其余 | GPL v3 | 原创 |
 
 ---
 
