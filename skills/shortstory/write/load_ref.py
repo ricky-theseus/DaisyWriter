@@ -449,7 +449,7 @@ def main():
         if not genre:
             print(f"无法解析类型。用法: load_ref.py 短篇/类型/ --distill")
             sys.exit(1)
-        # 从 proj_path 反推 D:\Writer\ 下的短篇路径
+        # 从 proj_path 反推 Writer 下的短篇路径
         base = find_workspace_base(proj_path)
         ref_dir = os.path.join(base, '参考书', genre)
         if not os.path.isdir(ref_dir):
