@@ -56,16 +56,17 @@ def find_workspace_base(proj_path):
     if os.path.isabs(proj_path):
         workspace = proj_path
         for _ in range(4):
-            if os.path.basename(workspace) in ('短篇', 'short-story') or (workspace and os.path.isdir(os.path.join(workspace, '短篇'))):
-                break
+            bn = os.path.basename(workspace)
+            if bn in ('短篇', 'short-story'):
+                return workspace
+            if workspace and os.path.isdir(os.path.join(workspace, '短篇')):
+                return os.path.join(workspace, '短篇')
             parent = os.path.dirname(workspace)
             if parent == workspace:
                 break
             workspace = parent
-        if os.path.isdir(os.path.join(workspace, '短篇')):
-            return os.path.join(workspace, '短篇')
-        else:
-            return os.path.join(os.path.dirname(SCRIPT_DIR), '短篇')
+        # 兜底：从脚本位置反推 Writer 根目录
+        return os.path.join(os.path.dirname(os.path.dirname(SCRIPT_DIR)), '短篇')
     else:
         base = os.path.normpath(os.path.join(os.path.dirname(SCRIPT_DIR), proj_path.split('/')[0] if '/' in proj_path else '..'))
         if not os.path.isdir(base):
@@ -89,13 +90,14 @@ def load_json_data(json_path):
         return None
 
 def scan_references(ref_dir):
-    """Scan reference directory, load both report text and JSON data.
-    Supports both 拆解报告.md and 拆书报告.md naming conventions."""
+    """Scan reference directory, load card, report text and JSON data.
+    Priority: 短篇参考卡.md > 拆解报告.md > 拆解数据.json"""
     if not os.path.isdir(ref_dir):
         return []
     results = []
     for item in sorted(os.listdir(ref_dir)):
         sub = os.path.join(ref_dir, item)
+        card_file = os.path.join(sub, '短篇参考卡.md')
         report = os.path.join(sub, '拆解报告.md')
         if not os.path.isfile(report):
             report = os.path.join(sub, '拆书报告.md')
@@ -105,14 +107,21 @@ def scan_references(ref_dir):
 
         entry = {
             'title': item,
+            'card_text': '',
             'report_text': '',
             'json': None,
             'has_rhythm': os.path.isfile(rhythm_file),
             'has_templates': os.path.isfile(template_file),
+            'has_card': os.path.isfile(card_file),
             'hook': '',
             'structure': '',
             'takeaways': '',
         }
+
+        # 短篇参考卡.md（权重最高）
+        if os.path.isfile(card_file):
+            with open(card_file, 'r', encoding='utf-8') as f:
+                entry['card_text'] = f.read()
 
         if os.path.isfile(report):
             with open(report, 'r', encoding='utf-8') as f:
@@ -128,20 +137,42 @@ def scan_references(ref_dir):
 
         entry['json'] = load_json_data(json_data)
 
-        has_content = bool(entry['hook'] or entry['structure'] or entry['takeaways'] or entry['json'])
+        has_content = bool(entry['card_text'] or entry['hook'] or entry['structure'] or entry['takeaways'] or entry['json'])
         if has_content:
             results.append(entry)
     return results
 
 def match_references_to_need(references, need_text, need_dims):
     """Score references by relevance to the user's need.
-    Uses pre-extracted fields from scan_references for reliability."""
+    Priority: 短篇参考卡.md > JSON > 报告文本"""
     scored = []
     for ref in references:
         score = 0
         matched_reasons = []
 
-        # Check JSON data for relevant patterns (highest confidence)
+        # 1. 短篇参考卡.md 匹配（最高权重）
+        if ref['card_text']:
+            card_text_lower = ref['card_text'].lower()
+            need_lower = need_text.lower()
+            # 卡全文搜索 need 关键词
+            for dim in need_dims:
+                for kw in NEED_DIMENSIONS[dim]:
+                    if kw in card_text_lower:
+                        score += 5
+                        matched_reasons.append(f"卡命中: {dim}维度")
+                        break
+            # need_text 直接出现在卡中
+            for word in need_lower.split():
+                if len(word) > 1 and word in card_text_lower:
+                    score += 3
+                    matched_reasons.append(f"卡关键词匹配: {word}")
+                    break
+            # 卡本身存在即有基础分
+            if score == 0:
+                score += 2
+                matched_reasons.append("有短篇参考卡")
+
+        # 2. Check JSON data for relevant patterns
         if ref['json']:
             json_data = ref['json']
 
@@ -315,7 +346,18 @@ def print_need_matching(scored, need_text, need_dims):
     for score, ref, reasons in scored:
         print(f"\n--- {ref['title']} (匹配度: {score}) ---")
 
-        # Show relevant pre-extracted content based on need
+        # 优先显示短篇参考卡（最浓缩）
+        if ref['has_card'] and ref['card_text']:
+            for line in ref['card_text'].split('\n')[:20]:
+                if line.strip() and not line.startswith('---') and not line.startswith('*由'):
+                    print(f"  {line[:120]}")
+            print(f"\n  → 匹配原因:")
+            for r in reasons[:3]:
+                print(f"    · {r[:120]}")
+            print()
+            continue
+
+        # 降级到报告/JSON（旧数据兼容）
         show_hook = any(d in ['钩子', '全部'] for d in need_dims)
         show_structure = any(d in ['结构', '节奏', '全部'] for d in need_dims)
 
@@ -331,22 +373,18 @@ def print_need_matching(scored, need_text, need_dims):
                 if line.strip():
                     print(f"    {line.strip()[:120]}")
 
-        # Show rhythm info if available and relevant
         if ref['has_rhythm'] and any(d in ['节奏', '全部'] for d in need_dims):
             print(f"\n  [节奏统计] 有段落级节奏数据")
             if ref['json'] and ref['json'].get('rhythm', {}).get('formula'):
                 print(f"    公式: {ref['json']['rhythm']['formula']}")
 
-        # Show templates if available
         if ref['has_templates']:
             print(f"\n  [句式模板] 有可复用句式模板")
 
-        # Show reasons why matched
         print(f"\n  → 匹配原因:")
         for r in reasons[:3]:
             print(f"    · {r[:120]}")
 
-        # Show takeaways (always useful)
         if ref['takeaways']:
             print(f"\n  [可借鉴]")
             for line in ref['takeaways'].split('\n')[:4]:
@@ -359,21 +397,69 @@ def print_need_matching(scored, need_text, need_dims):
     print("对匹配度最高的参考书，强制引用其模式至少一条。")
     print(f"{'='*50}\n")
 
+def print_distill(ref_dir, genre):
+    """Print 类型总结.md for the genre."""
+    summary_path = os.path.join(ref_dir, '类型总结.md')
+    if os.path.isfile(summary_path):
+        text = open(summary_path, 'r', encoding='utf-8').read()
+        print(f"\n{'='*50}")
+        print(f"类型总结：{genre}")
+        print(f"{'='*50}\n")
+        print(text)
+    else:
+        print(f"\n[提示] {genre} 类型尚无类型总结。")
+        print(f"运行 distill_ref.py 生成：")
+        print(f"  python <craft_skill_dir>/scripts/distill_ref.py {genre}")
+        if os.path.isdir(ref_dir):
+            has_cards = any(os.path.isfile(os.path.join(sub, '短篇参考卡.md'))
+                            for sub in [os.path.join(ref_dir, d) for d in os.listdir(ref_dir)]
+                            if os.path.isdir(sub))
+            if has_cards:
+                print("(已有部分短篇参考卡，可直接运行蒸馏)")
+
+
 def main():
     if len(sys.argv) < 2:
         print("用法:")
-        print("  python load_ref.py 短篇/{类型}/{项目名}/          # 全量扫描")
-        print("  python load_ref.py 短篇/{类型}/{项目名}/ --need \"描述你的写作难点\"")
+        print("  python load_ref.py 短篇/{类型}/{项目名}/                  # 全量扫描")
+        print("  python load_ref.py 短篇/{类型}/{项目名}/ --need \"描述\"   # 按需匹配")
+        print("  python load_ref.py 短篇/{类型}/ --distill                 # 查看类型总结")
         print()
         print("示例:")
         print("  python load_ref.py 短篇/言情/我的项目/")
         print("  python load_ref.py 短篇/悬疑/我的项目/ --need \"开篇钩子不知道怎么设计\"")
         print("  python load_ref.py 短篇/脑洞/我的项目/ --need \"节奏太平淡，缺少爆发段\"")
         print("  python load_ref.py 短篇/言情/我的项目/ --need \"结尾收不住，不知道怎么写twist\"")
+        print("  python load_ref.py 短篇/言情/ --distill")
         sys.exit(1)
 
     proj_path = sys.argv[1]
     need_text = ''
+    is_distill = len(sys.argv) >= 3 and sys.argv[2] == '--distill'
+
+    if is_distill:
+        # 从路径中提取类型名，参考书路径从 proj_path 计算
+        clean = proj_path.rstrip('/').rstrip('\\').replace('\\', '/')
+        genre = None
+        parts = clean.split('/')
+        for i, p in enumerate(parts):
+            if p in ('短篇', 'short-story') and i + 1 < len(parts):
+                genre = parts[i + 1]
+                break
+        if not genre:
+            print(f"无法解析类型。用法: load_ref.py 短篇/类型/ --distill")
+            sys.exit(1)
+        # 从 proj_path 反推 Writer 下的短篇路径
+        base = find_workspace_base(proj_path)
+        ref_dir = os.path.join(base, '参考书', genre)
+        if not os.path.isdir(ref_dir):
+            # 兜底：从脚本位置反推
+            alt_base = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '短篇'))
+            if os.path.isdir(alt_base):
+                ref_dir = os.path.join(alt_base, '参考书', genre)
+        print_distill(ref_dir, genre)
+        return
+
     if len(sys.argv) >= 4 and sys.argv[2] == '--need':
         need_text = sys.argv[3]
 

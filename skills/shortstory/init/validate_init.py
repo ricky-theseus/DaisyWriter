@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-REQUIRED_FILES = ["作品信息.md", "设定.md", "角色.md", "章节规划.md", "工艺约束.md", "正文.md"]
+REQUIRED_FILES = ["作品信息/作品信息.md", "设定.md", "角色.md", "章节规划.md", "工艺约束.md", "正文.md"]
 
 
 def main():
@@ -44,7 +44,20 @@ def main():
         elif len(fp.read_text('utf-8').strip()) == 0:
             errors.append({"field": "file_empty", "file": fname, "reason": f"{fname} 为空文件"})
 
-    # 额外检查：章节规划.md 是否有章纲条目
+    # 额外检查：作品信息.md 导语字段
+    info_file = proj / '作品信息' / '作品信息.md'
+    if info_file.exists():
+        text = info_file.read_text('utf-8')
+        # 查找导语内容，格式如 `导语：...` 或 `**导语**：...`
+        daoyu_match = re.search(r'\*{0,2}导语\*{0,2}[：:]\s*(.{1,300})', text)
+        if not daoyu_match:
+            errors.append({"field": "info_no_daoyu", "file": "作品信息.md",
+                           "reason": "作品信息.md 缺少「导语」字段"})
+        elif len(daoyu_match.group(1).strip()) == 0:
+            errors.append({"field": "info_daoyu_empty", "file": "作品信息.md",
+                           "reason": "导语字段为空，须填写 ≤300 字的导语"})
+
+    # 额外检查：章节规划.md 是否有章纲条目 + 卡点字段 + 试读卡点标记
     plan_file = proj / '章节规划.md'
     if plan_file.exists():
         text = plan_file.read_text('utf-8')
@@ -52,6 +65,16 @@ def main():
         if len(chapters) == 0:
             errors.append({"field": "plan_no_chapters", "file": "章节规划.md",
                            "reason": "章节规划.md 中未找到「第N章」条目"})
+        # 检查卡点：每章应有卡点描述
+        kadian_match = re.search(r'\*{0,2}卡点\*{0,2}[：:]', text)
+        if not kadian_match:
+            errors.append({"field": "plan_no_kadian", "file": "章节规划.md",
+                           "reason": "章节规划.md 中未找到任何「卡点：」字段，每章须标注卡点"})
+        # 检查试读卡点章标记
+        sd_match = re.search(r'试读卡点', text)
+        if not sd_match:
+            errors.append({"field": "plan_no_trial_marker", "file": "章节规划.md",
+                           "reason": "章节规划.md 中未找到「试读卡点」标记，须标注试读卡点章"})
 
     # 额外检查：设定.md 是否过短（< 200 字说明太少）
     setting_file = proj / '设定.md'

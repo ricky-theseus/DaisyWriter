@@ -16,9 +16,20 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 def parse_chapter_plan(text):
     """从章节规划.md 提取每章目标字数。"""
     chapters = {}
-    for m in re.finditer(r'##\s*第(\d+)章[：:]\s*(.+?)[（(]\s*([\d,]+)\s*字', text):
+    # 格式：第N章：标题（字数） 或 **字数**：2000-3000字
+    for m in re.finditer(r'##{1,3}\s*第(\d+)章[：:]\s*(.+?)[（(]\s*([\d,]+)\s*字', text):
         n, t, c = int(m.group(1)), m.group(2).strip(), int(m.group(3).replace(',', ''))
         chapters[n] = {"title": t, "target_chars": c}
+    # fallback: 从 **字数**：N-M 行提取
+    if not chapters:
+        for m in re.finditer(r'##{1,3}\s*第(\d+)章[：:]\s*(.+)', text):
+            n = int(m.group(1))
+            title = m.group(2).strip()
+            # Look for **字数**： on following lines
+            body = text[m.end():]
+            wm = re.search(r'\*{0,2}字数\*{0,2}[：:]\s*(\d+)', body)
+            if wm:
+                chapters[n] = {"title": title, "target_chars": int(wm.group(1))}
     if not chapters:  # fallback: 总字数表
         for m in re.finditer(r'\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([\d,]+)\s*\|', text):
             n, t, c = int(m.group(1)), m.group(2).strip(), int(m.group(3).replace(',', ''))
@@ -30,7 +41,7 @@ def parse_chapter_plan(text):
 def extract_actual_chapters(body_text):
     """从正文.md 按 ## 标题解析实际章节与字数。"""
     chapters = {}
-    pat = re.compile(r'^##\s*第(\d+)章[：:].*?$', re.MULTILINE)
+    pat = re.compile(r'^#{1,4}\s*第(\d+)章[：:].*?$', re.MULTILINE)
     matches = list(pat.finditer(body_text))
     for i, m in enumerate(matches):
         n = int(m.group(1))
@@ -90,19 +101,26 @@ def main():
     cp = status["chapter_plan"].get(str(cc), {})
     target = cp.get("target_chars", 0)
     actual_chars = actual.get(cc, 0)
-    min_req = target
+
+    # 字数区间：默认 1800-2200，章节规划有指定则用该值 ±200
+    default_min, default_max = 1800, 2200
+    if target:
+        min_req = target - 200 if target - 200 >= 800 else target
+        max_req = target + 200 if target + 200 <= 3000 else target
+    else:
+        min_req, max_req = default_min, default_max
 
     errors = []
     writable = cs.get("status") in ("pending", "writing", "blocking")
 
     if writable:
-        # 如果是 pending，标记为 writing（首次开写或者已预写内容）
+        # 如果是 pending，标记为 writing（首次开写或者已经预写内容）
         if cs.get("status") == "pending":
             status["chapters"][str(cc)]["status"] = "writing"
 
         # 已有内容才校验
         if actual_chars > 0:
-            # 字数门禁
+            # 字数下限门禁
             if actual_chars < min_req:
                 errors.append({
                     "chapter": cc,
@@ -110,7 +128,17 @@ def main():
                     "actual": actual_chars,
                     "target": target,
                     "min_required": min_req,
-                    "reason": f"第{cc}章「{cp.get('title','')}」目标{target}字，实际{actual_chars}字，不足{target}字"
+                    "reason": f"第{cc}章「{cp.get('title','')}」实际{actual_chars}字，低于下限{min_req}字"
+                })
+
+            # 字数上限门禁（新增）
+            if actual_chars > max_req:
+                errors.append({
+                    "chapter": cc,
+                    "field": "word_count_upper",
+                    "actual": actual_chars,
+                    "max_allowed": max_req,
+                    "reason": f"第{cc}章「{cp.get('title','')}」实际{actual_chars}字，超过上限{max_req}字，需删减"
                 })
 
             # 格式门禁

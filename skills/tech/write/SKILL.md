@@ -33,13 +33,63 @@ argument-hint: "[文章名] [--draft|--final]"
 - 去掉文件头部 `[草稿]` 标记
 - 更新 `.author/published.json` 记录完成时间
 
-## 模式
+## Mermaid 图规范（全线强制）
 
-| 模式 | 流程 |
-|------|------|
-| 默认 | Step 0→1→2→3 |
-| `--draft` | Step 0→1（留草稿标记，不进审查） |
-| `--final` | 已有草稿直接跳到 Step 2→3 |
+所有 Mermaid 框图必须严格执行以下规格，与 AI Agent 系列博文风格一致：
+
+### 图类型
+- 流程图：使用 `graph TD`（自上而下）或 `graph LR`（自左向右），**禁止使用 `flowchart`**
+
+### 节点格式
+- 所有节点用 `["中文说明"]` 方形节点
+- 条件判断用 `{"中文条件"}` 菱形节点
+- 文字过长用 `<br/>` 换行
+
+### 禁止规则
+- 禁止 `subgraph`
+- 禁止纯英文或混合中英节点（除非专业名词如 `push_back`、`unique_ptr`）
+
+### 色彩样式
+每张图末尾加 `style` 块定义颜色：
+- 开始/结束节点：浅绿色 `fill:#e8f5e9,stroke:#2e7d32`
+- 处理/操作节点：浅蓝色 `fill:#e3f2fd,stroke:#1565c0`
+- 条件/判断节点：浅橙色 `fill:#fff3e0,stroke:#e65100`
+- 数据/输出节点：浅紫色 `fill:#f3e5f5,stroke:#7b1fa2`
+
+### 示例（AI Agent 系列标准图）
+```mermaid
+graph LR
+    A["用户输入"] --> B["Agent 处理"]
+    B --> C{"是否需要工具?"}
+    C -->|"是"| D["调用工具"]
+    C -->|"否"| E["直接返回"]
+    D --> B
+    E --> F["输出结果"]
+
+    style A fill:#e8f5e9,stroke:#2e7d32
+    style B fill:#e3f2fd,stroke:#1565c0
+    style C fill:#fff3e0,stroke:#e65100
+    style D fill:#f3e5f5,stroke:#7b1fa2
+    style E fill:#e3f2fd,stroke:#1565c0
+    style F fill:#e8f5e9,stroke:#2e7d32
+```
+
+### 示例（数据结构类图）
+```mermaid
+graph LR
+    A["指针 A"] --> B["节点 1"]
+    B --> C["节点 2"]
+    C --> D["节点 3"]
+    D --> E["nullptr"]
+
+    style A fill:#e8f5e9,stroke:#2e7d32
+    style B fill:#e3f2fd,stroke:#1565c0
+    style C fill:#e3f2fd,stroke:#1565c0
+    style D fill:#e3f2fd,stroke:#1565c0
+    style E fill:#f3e5f5,stroke:#7b1fa2
+```
+
+## 模式
 
 ## 目录结构
 

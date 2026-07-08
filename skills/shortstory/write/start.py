@@ -81,6 +81,13 @@ def main():
     plan = status.get("chapter_plan", {}).get(str(cc), {})
     actual = cs.get("actual_chars", 0)
     target = plan.get("target_chars", 0)
+    # 字数区间计算
+    default_min, default_max = 1800, 2200
+    if target:
+        min_req = target - 200 if target - 200 >= 800 else target
+        max_req = target + 200 if target + 200 <= 3000 else target
+    else:
+        min_req, max_req = default_min, default_max
 
     # --advance: 当前章标记 passed，推进到下一章
     if "--advance" in args:
@@ -140,10 +147,16 @@ def main():
                 print(f"  上次审查报告: {report_path}")
         return
 
+    # 字数区间显示
+    pt = plan.get("target_chars", 0)
+    if pt:
+        range_str = f"{max(pt-200, 800)}-{min(pt+200, 3000)}字"
+    else:
+        range_str = "1800-2200字"
     state_map = {
-        "pending": ("待开写", f"第{cc}章「{plan.get('title', '')}」目标{target}字"),
-        "writing": ("写/修中", f"第{cc}章当前{actual}字，目标{target}字"),
-        "in_review": ("待盲审", f"第{cc}章字数已够 ({actual}/{target})"),
+        "pending": ("待开写", f"第{cc}章「{plan.get('title', '')}」目标{range_str}"),
+        "writing": ("写/修中", f"第{cc}章当前{actual}字，目标区间{range_str}"),
+        "in_review": ("待盲审", f"第{cc}章字数达标 ({actual}/{range_str})"),
         "blocking": ("有阻断需修复", f"第{cc}章盲审查出阻断"),
         "passed": ("已通过", f"第{cc}章已完成"),
     }
@@ -159,8 +172,10 @@ def main():
        -> 字数通过后进入 in_review ->  spawn 子 agent 盲审
 """)
     elif s == "writing":
-        if actual < target:
-            print(f"  [WARN] 字数不足: 当前{actual}字, 目标{target}字, 还差{target - actual}字")
+        if actual < min_req:
+            print(f"  [WARN] 字数不足: 当前{actual}字, 低于下限{min_req}字, 还差{min_req - actual}字")
+        if actual > max_req:
+            print(f"  [WARN] 字数超限: 当前{actual}字, 超过上限{max_req}字, 需删减{actual - max_req}字")
         print("""  写完或修改后，运行 python start.py <项目目录> 校验字数。""")
     elif s == "in_review":
         print("""

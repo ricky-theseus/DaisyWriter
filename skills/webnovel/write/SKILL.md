@@ -59,7 +59,7 @@ python -X utf8 "${SCRIPTS_DIR}/reference_search.py" --skill write --table {表�
 export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
 export CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-${OPENCODE_PLUGIN_ROOT:-}}"
 export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT:?}/scripts"
-export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT:?}/skills/webnovel/write"
+export SKILL_ROOT="${CLAUDE_PLUGIN_ROOT:?}/skills/webnovel-write"
 
 python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${WORKSPACE_ROOT}" preflight
 export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/webnovel.py" --project-root "${WORKSPACE_ROOT}" where)"
@@ -137,7 +137,7 @@ Task:
 **阶段一：量化扫描**
 
 ```bash
-python -X utf8 "${SKILL_ROOT}/../craft/scripts/prose_scanner.py" "${CHAPTER_FILE}"
+python -X utf8 "${SKILL_ROOT}/../webnovel-craft/scripts/prose_scanner.py" "${CHAPTER_FILE}"
 ```
 
 输出 JSON 到 stdout。脚本只做量化，不存盘。`blocking_count > 0` 的项必须在阶段二前定点修复。
@@ -231,6 +231,8 @@ python -X utf8 -c "import json,os; from pathlib import Path; root=Path(os.enviro
 ### Step 4：润色
 
 `references/polish-guide.md` 区段读：先 `Grep` 匹配 `^#{1,3} ` 定位锚点行号，再 `Read` 的 offset/limit 取段——主路径取 `## 2. 执行顺序（必须按序）`；Anti-AI 终检单独区段取 `## 2A. Anti-AI 检测细则` 与 `## Phase 1 增补：Anti-AI 规范（7层，原版）`（词库段），不全文读。`references/writing/typesetting.md`、`references/style-adapter.md` 短文件，全文读。
+
+Step 2 起草前可选择性加载 `references/chapter-structure-guide.md`（章节结构、致命错误、写作检查清单），帮助达到章节结构标准。
 
 顺序：修复非 blocking issue → 风格适配 → 排版 → Anti-AI 终检。
 
