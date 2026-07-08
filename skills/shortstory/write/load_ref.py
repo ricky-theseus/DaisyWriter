@@ -65,7 +65,7 @@ def find_workspace_base(proj_path):
             if parent == workspace:
                 break
             workspace = parent
-        # 兜底：从脚本位置反推 D:\Writer\
+        # 兜底：从脚本位置反推 Writer 根目录
         return os.path.join(os.path.dirname(os.path.dirname(SCRIPT_DIR)), '短篇')
     else:
         base = os.path.normpath(os.path.join(os.path.dirname(SCRIPT_DIR), proj_path.split('/')[0] if '/' in proj_path else '..'))

@@ -1,11 +1,12 @@
 import json, subprocess, sys
-res = subprocess.run(['python', r'D:\Writer\.opencode\skills\fanqie-publisher\scripts\prepare_chapters.py', '--dir', r'D:\Writer\未命名者\正文'], capture_output=True, text=True)
+if len(sys.argv) < 3:
+    print("Usage: python debug_match.py <prepare_script> <chapter_dir> [target_filter]")
+    sys.exit(1)
+res = subprocess.run(['python', sys.argv[1], '--dir', sys.argv[2]], capture_output=True, text=True)
 chapters = json.loads(res.stdout)
-target = r'D:\Writer\未命名者\正文\第0006章-我知道.md'
+target_filter = sys.argv[3] if len(sys.argv) > 3 else ''
 print(f"Total chapters: {len(chapters)}")
-print(f"Target: {target}")
 for c in chapters:
     f = c['file']
-    if '0006' in f:
+    if target_filter in f:
         print(f"  file={repr(f)}")
-        print(f"  matches target: {f == target}")

@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# 短篇参考书根目录（从脚本位置上溯到 D:\Writer）
+# 短篇参考书根目录（从脚本位置上溯到 Writer 根目录）
 ROOT = Path(__file__).resolve().parents[4] / '短篇' / '参考书'
 
 
